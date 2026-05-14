@@ -54,6 +54,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Meltx Micheal Portfolio" />
         <meta name="twitter:description" content="Full Stack Developer & AI Engineer — premium cinematic portfolio." />
+        {/* Favicon — all sizes & browsers */}
+        <link rel="icon" type="image/png" sizes="32x32" href="https://res.cloudinary.com/drwecuwj3/image/upload/c_fill,w_32,h_32/v1778765549/20260514_185944_bwzrqw.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="https://res.cloudinary.com/drwecuwj3/image/upload/c_fill,w_16,h_16/v1778765549/20260514_185944_bwzrqw.png" />
+        <link rel="shortcut icon" href="https://res.cloudinary.com/drwecuwj3/image/upload/c_fill,w_32,h_32/v1778765549/20260514_185944_bwzrqw.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="https://res.cloudinary.com/drwecuwj3/image/upload/c_fill,w_180,h_180/v1778765549/20260514_185944_bwzrqw.png" />
+        <meta name="theme-color" content="#0a0a19" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://api.fontshare.com" />
       </head>

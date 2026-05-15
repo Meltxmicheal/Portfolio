@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import ClientProviders from '@/components/ui/ClientProviders'
 
@@ -68,8 +68,13 @@ export const metadata: Metadata = {
     ],
     shortcut: `${CLOUDINARY_BASE_URL}/image/upload/c_fill,w_32,h_32/v1778765549/20260514_185944_bwzrqw.png`,
   },
-  themeColor: '#0a0a19',
   manifest: undefined,
+}
+
+export const viewport: Viewport = {
+  themeColor: '#0a0a19',
+  width: 'device-width',
+  initialScale: 1,
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

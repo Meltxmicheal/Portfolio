@@ -7,6 +7,8 @@ node_modules/
 # Commit .env.example files only — not .env or .env.local
 .env
 .env.local
+.env.development
+.env.production
 .env.development.local
 .env.test.local
 .env.production.local

@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import Link from 'next/link'
+import { CLOUDINARY_BASE_URL } from '@/lib/config'
 
 const navLinks = [
   { label: 'About', href: '#about' },
@@ -71,7 +72,7 @@ export default function Navbar() {
               background: 'var(--bg-card, rgba(10,10,25,0.8))'
             }}>
               <img 
-                src="https://res.cloudinary.com/drwecuwj3/image/upload/v1778765549/20260514_185944_bwzrqw.png" 
+                src={`${CLOUDINARY_BASE_URL}/image/upload/v1778765549/20260514_185944_bwzrqw.png`} 
                 alt="Meltx Micheal Logo" 
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
               />

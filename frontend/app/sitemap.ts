@@ -1,7 +1,8 @@
 import { MetadataRoute } from 'next'
+import { SITE_URL, API_URL } from '@/lib/config'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://meltxmicheal.vercel.app'
+  const siteUrl = SITE_URL
 
   const staticRoutes: MetadataRoute.Sitemap = [
     {
@@ -13,7 +14,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ]
 
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL
+    const apiUrl = API_URL
     // Skip dynamic routes if no API URL configured (e.g. local build without backend)
     if (!apiUrl || apiUrl.includes('localhost')) return staticRoutes
 

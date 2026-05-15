@@ -2,9 +2,10 @@ import type { Metadata } from 'next'
 import './globals.css'
 import ClientProviders from '@/components/ui/ClientProviders'
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://meltxmicheal.vercel.app'
-const ogImage = process.env.NEXT_PUBLIC_OG_IMAGE_URL ||
-  'https://res.cloudinary.com/drwecuwj3/image/upload/f_auto,q_auto,w_1200/v1778765549/20260514_185944_bwzrqw.png'
+import { SITE_URL, CLOUDINARY_BASE_URL } from '@/lib/config'
+
+const siteUrl = SITE_URL
+const ogImage = `${CLOUDINARY_BASE_URL}/image/upload/f_auto,q_auto,w_1200/v1778765549/20260514_185944_bwzrqw.png`
 
 export const metadata: Metadata = {
   title: {
@@ -59,13 +60,13 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: 'https://res.cloudinary.com/drwecuwj3/image/upload/c_fill,w_32,h_32/v1778765549/20260514_185944_bwzrqw.png', sizes: '32x32', type: 'image/png' },
-      { url: 'https://res.cloudinary.com/drwecuwj3/image/upload/c_fill,w_16,h_16/v1778765549/20260514_185944_bwzrqw.png', sizes: '16x16', type: 'image/png' },
+      { url: `${CLOUDINARY_BASE_URL}/image/upload/c_fill,w_32,h_32/v1778765549/20260514_185944_bwzrqw.png`, sizes: '32x32', type: 'image/png' },
+      { url: `${CLOUDINARY_BASE_URL}/image/upload/c_fill,w_16,h_16/v1778765549/20260514_185944_bwzrqw.png`, sizes: '16x16', type: 'image/png' },
     ],
     apple: [
-      { url: 'https://res.cloudinary.com/drwecuwj3/image/upload/c_fill,w_180,h_180/v1778765549/20260514_185944_bwzrqw.png', sizes: '180x180' },
+      { url: `${CLOUDINARY_BASE_URL}/image/upload/c_fill,w_180,h_180/v1778765549/20260514_185944_bwzrqw.png`, sizes: '180x180' },
     ],
-    shortcut: 'https://res.cloudinary.com/drwecuwj3/image/upload/c_fill,w_32,h_32/v1778765549/20260514_185944_bwzrqw.png',
+    shortcut: `${CLOUDINARY_BASE_URL}/image/upload/c_fill,w_32,h_32/v1778765549/20260514_185944_bwzrqw.png`,
   },
   themeColor: '#0a0a19',
   manifest: undefined,

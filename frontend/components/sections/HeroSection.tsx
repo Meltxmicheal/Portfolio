@@ -53,17 +53,39 @@ export default function HeroSection({ profile }: HeroProps) {
       }}
     >
       {/* Background Blobs for depth */}
-      <div className="hero-blob" style={{ position: 'absolute', top: '10%', left: '5%', width: 600, height: 600, background: 'radial-gradient(circle, rgba(124,58,237,0.1) 0%, transparent 70%)', filter: 'blur(80px)', zIndex: 1 }} />
-      <div className="hero-blob" style={{ position: 'absolute', bottom: '10%', right: '5%', width: 500, height: 500, background: 'radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%)', filter: 'blur(80px)', zIndex: 1 }} />
+      <div className="hero-blob" style={{ position: 'absolute', top: '10%', left: '5%', width: 600, height: 600, background: 'radial-gradient(circle, rgba(124,58,237,0.1) 0%, transparent 70%)', filter: 'blur(80px)', zIndex: 1, willChange: 'transform' }} />
+      <div className="hero-blob" style={{ position: 'absolute', bottom: '10%', right: '5%', width: 500, height: 500, background: 'radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%)', filter: 'blur(80px)', zIndex: 1, willChange: 'transform' }} />
 
       {/* Main content */}
       <div style={{ maxWidth: 1200, width: '100%', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 2 }}>
-        {/* Badge */}
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 12, marginBottom: 32, animation: 'fadeUp 0.8s ease forwards', background: 'rgba(124, 58, 237, 0.08)', padding: '8px 20px', borderRadius: '100px', border: '1px solid rgba(124, 58, 237, 0.2)' }}>
-          <div className="pulse-dot" style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--violet-glow)', boxShadow: '0 0 12px var(--violet-glow)' }} />
-          <span style={{ fontSize: 11, letterSpacing: '0.4em', textTransform: 'uppercase', color: 'var(--text-accent)', fontFamily: 'JetBrains Mono, monospace', fontWeight: 700 }}>
-            System Online
+        {/* Available for Internships badge — recruiter signal */}
+        <div style={{
+          display: 'inline-flex', alignItems: 'center', gap: 10,
+          marginBottom: 20, padding: '7px 18px', borderRadius: '100px',
+          background: 'rgba(34, 197, 94, 0.08)',
+          border: '1px solid rgba(34, 197, 94, 0.25)',
+          animation: 'fadeUp 0.7s 0.1s ease both',
+          opacity: 0,
+        }}>
+          <span style={{
+            width: 8, height: 8, borderRadius: '50%',
+            background: '#22c55e', display: 'inline-block',
+            boxShadow: '0 0 0 0 rgba(34,197,94,0.4)',
+            animation: 'greenPulse 2s ease-in-out infinite',
+          }} />
+          <span style={{ fontSize: 12, letterSpacing: '0.06em', color: '#86efac', fontWeight: 600 }}>
+            Available for Internships
           </span>
+        </div>
+
+        {/* System status badge */}
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 32 }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 12, animation: 'fadeUp 0.8s 0.2s ease both', background: 'rgba(124, 58, 237, 0.08)', padding: '8px 20px', borderRadius: '100px', border: '1px solid rgba(124, 58, 237, 0.2)', opacity: 0 }}>
+            <div className="pulse-dot" style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--violet-glow)', boxShadow: '0 0 12px var(--violet-glow)' }} />
+            <span style={{ fontSize: 11, letterSpacing: '0.4em', textTransform: 'uppercase', color: 'var(--text-accent)', fontFamily: 'JetBrains Mono, monospace', fontWeight: 700 }}>
+              System Online
+            </span>
+          </div>
         </div>
 
         {/* Name */}

@@ -11,15 +11,24 @@ import ThankYouSection from '@/components/sections/ThankYouSection'
 
 export const revalidate = 60 // ISR: re-fetch every 60 seconds
 
+// Helper: safely fetch — returns null on any error (e.g. backend not running at build time)
+async function safe<T>(fn: () => Promise<T>, fallback: T): Promise<T> {
+  try {
+    return await fn()
+  } catch {
+    return fallback
+  }
+}
+
 export default async function HomePage() {
   const [profile, skills, projects, education, experience, featuredProject, socialLinks] = await Promise.all([
-    api.getProfile(),
-    api.getSkills(),
-    api.getProjects(),
-    api.getEducation(),
-    api.getExperience(),
-    api.getFeaturedProject(),
-    api.getSocialLinks(),
+    safe(() => api.getProfile(), null),
+    safe(() => api.getSkills(), []),
+    safe(() => api.getProjects(), []),
+    safe(() => api.getEducation(), []),
+    safe(() => api.getExperience(), []),
+    safe(() => api.getFeaturedProject(), null),
+    safe(() => api.getSocialLinks(), null),
   ])
 
   const projectsTitle = featuredProject ? 'Featured Projects' : 'My Works'

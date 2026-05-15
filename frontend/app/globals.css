@@ -563,7 +563,30 @@ html.lenis {
   50% { opacity: 0.6; transform: scale(1.05); }
 }
 
+/* Pulsing green dot for availability badge */
+@keyframes greenPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.6); opacity: 1; }
+  50%  { box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); opacity: 0.7; }
+  100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); opacity: 1; }
+}
+
+/* Violet pulse dot (hero) */
+@keyframes pulseDot {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.6); }
+  50%       { box-shadow: 0 0 0 6px rgba(124, 58, 237, 0); }
+}
+
+.pulse-dot {
+  animation: pulseDot 2s ease-in-out infinite;
+  will-change: box-shadow;
+}
+
+/* Performance: GPU-accelerate scroll-animated elements */
+.will-change-transform {
+  will-change: transform;
+}
+
 .animate-fadeUp { animation: fadeUp 0.8s ease forwards; }
-.animate-float { animation: float 6s ease-in-out infinite; }
-.animate-wave-float { animation: wave-float 20s ease-in-out infinite; }
-.animate-breathe { animation: breathe 10s ease-in-out infinite; }
+.animate-float { animation: float 6s ease-in-out infinite; will-change: transform; }
+.animate-wave-float { animation: wave-float 20s ease-in-out infinite; will-change: transform; }
+.animate-breathe { animation: breathe 10s ease-in-out infinite; will-change: transform, opacity; }

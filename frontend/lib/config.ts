@@ -4,11 +4,13 @@
  * Using NEXT_PUBLIC_ prefix is required for Next.js to expose variables to the browser.
  */
 
+const RENDER_URL = 'https://portfolio-no33.onrender.com';
+
 export const CONFIG = {
-  // API URLs
-  API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api',
-  BACKEND_URL: process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000',
-  SITE_URL: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
+  // API URLs — NEXT_PUBLIC_ vars are injected at build time by Vercel
+  API_URL: process.env.NEXT_PUBLIC_API_URL || `${RENDER_URL}/api`,
+  BACKEND_URL: process.env.NEXT_PUBLIC_BACKEND_URL || RENDER_URL,
+  SITE_URL: process.env.NEXT_PUBLIC_SITE_URL || 'https://portfolio-olive-six-qw461lauko.vercel.app',
 
   // Cloudinary
   CLOUDINARY: {

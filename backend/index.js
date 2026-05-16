@@ -9,6 +9,9 @@ const apiRouter = require('./routes/api');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// ── Trust Proxy: Required for Render/Vercel to see real client IPs ───────────
+app.set('trust proxy', 1);
+
 // ── CORS: support multiple allowed origins (comma-separated in env) ──────────
 const rawOrigins = process.env.FRONTEND_URL || 'http://localhost:3000';
 const allowedOrigins = rawOrigins.split(',').map((o) => o.trim()).filter(Boolean);
@@ -30,7 +33,7 @@ app.use(express.json({ limit: '10mb' }));
 // ── Rate limiting ─────────────────────────────────────────────────────────────
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 100,
+  max: 500, // Increased from 100 to 500
   standardHeaders: true,
   legacyHeaders: false,
 });

@@ -12,7 +12,7 @@ const getProjects = async (req, res) => {
 const createProject = async (req, res) => {
   const { 
     title, slug, short_description, description,
-    thumbnail_image, gallery_images,
+    cover_image, images,
     technologies, github_url, live_url, category, status, 
     is_featured, features, sort_order 
   } = req.body;
@@ -21,13 +21,13 @@ const createProject = async (req, res) => {
     const { rows } = await pool.query(
       `INSERT INTO projects (
         title, slug, short_description, description, 
-        thumbnail_image, gallery_images,
+        cover_image, images,
         technologies, github_url, live_url, category, status, 
         is_featured, features, sort_order
       ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *`,
       [
         title, slug, short_description, description, 
-        thumbnail_image, gallery_images || [],
+        cover_image, images || [],
         technologies || [], github_url, live_url, category || 'web', status || 'completed', 
         is_featured || false, features || [], sort_order || 0
       ]
@@ -42,7 +42,7 @@ const updateProject = async (req, res) => {
   const { id } = req.params;
   const { 
     title, slug, short_description, description, 
-    thumbnail_image, gallery_images,
+    cover_image, images,
     technologies, github_url, live_url, category, status, 
     is_featured, features, sort_order 
   } = req.body;
@@ -51,13 +51,13 @@ const updateProject = async (req, res) => {
     const { rows } = await pool.query(
       `UPDATE projects SET 
         title = $1, slug = $2, short_description = $3, description = $4, 
-        thumbnail_image = $5, gallery_images = $6,
+        cover_image = $5, images = $6,
         technologies = $7, github_url = $8, live_url = $9, category = $10, status = $11, 
         is_featured = $12, features = $13, sort_order = $14, updated_at = NOW()
        WHERE id = $15 RETURNING *`,
       [
         title, slug, short_description, description, 
-        thumbnail_image, gallery_images || [],
+        cover_image, images || [],
         technologies || [], github_url, live_url, category, status, 
         is_featured, features, sort_order, id
       ]

@@ -60,5 +60,7 @@ coverage/
 /pnpm-lock.yaml
 
 # ── Misc ───────────────────────────────────────────────────────
-*.txt
-!docs/**
+# (no blanket *.txt — would hide README companions and docs)
+*.local
+*.orig
+tmp/

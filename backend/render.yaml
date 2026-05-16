@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: portfolio-backend
+    runtime: node
+    plan: free
+    branch: main
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: node index.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      # ── Add these manually in the Render dashboard ──
+      # DATABASE_URL       → your Supabase connection string
+      # JWT_SECRET         → random 64-char hex string
+      # ADMIN_EMAIL        → your admin email
+      # ADMIN_PASSWORD_HASH → bcrypt hash of admin password
+      # CLOUDINARY_CLOUD_NAME
+      # CLOUDINARY_API_KEY
+      # CLOUDINARY_API_SECRET
+      # CLOUDINARY_UPLOAD_PRESET → portfolio_uploads
+      # FRONTEND_URL       → https://your-app.vercel.app,http://localhost:3000
+    healthCheckPath: /api/health

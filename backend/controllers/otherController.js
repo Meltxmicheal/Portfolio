@@ -14,7 +14,7 @@ const createSkill = async (req, res) => {
   const { name, category, proficiency, is_featured } = req.body;
   try {
     const { rows } = await pool.query(
-      'INSERT INTO skills (skill_name, category, proficiency, is_featured) VALUES ($1, $2, $3, $4) RETURNING *',
+      'INSERT INTO skills (name, category, proficiency, is_featured) VALUES ($1, $2, $3, $4) RETURNING *',
       [name, category, proficiency, is_featured || false]
     );
     res.json(rows[0]);

@@ -187,6 +187,28 @@ export default function AdminProfilePage() {
             </div>
           </div>
 
+          <div style={{ marginBottom: 32 }}>
+            <label style={{ fontSize: 11, color: '#64748b', letterSpacing: '0.15em', textTransform: 'uppercase', display: 'block', marginBottom: 12, fontWeight: 700 }}>Contact Image</label>
+            <div {...getContactProps()} style={{ position: 'relative', width: '100%', aspectRatio: '16/9', borderRadius: 16, overflow: 'hidden', border: `2px dashed ${isContactDrag ? 'var(--violet-glow)' : 'rgba(255,255,255,0.1)'}`, background: 'rgba(255,255,255,0.02)', marginBottom: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.3s ease' }}>
+              <input {...getContactInput()} />
+              {profile.contact_image_url ? (
+                <>
+                  <Image src={profile.contact_image_url} alt="Contact Image" fill style={{ objectFit: 'cover' }} />
+                  <div style={{ position: 'absolute', inset: 0, background: 'rgba(10,1,30,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0, transition: 'opacity 0.2s', backdropFilter: 'blur(4px)' }}
+                    onMouseEnter={e => (e.currentTarget as HTMLElement).style.opacity = '1'}
+                    onMouseLeave={e => (e.currentTarget as HTMLElement).style.opacity = '0'}>
+                    <span style={{ fontSize: 12, color: '#f1f5f9', fontWeight: 700 }}>UPDATE CONTACT IMAGE</span>
+                  </div>
+                </>
+              ) : (
+                <div style={{ textAlign: 'center', padding: 20 }}>
+                  <div style={{ fontSize: 32, marginBottom: 8 }}>🖼️</div>
+                  <p style={{ fontSize: 12, color: '#64748b' }}>{uploadingContact ? 'Uploading...' : 'Drop contact image'}</p>
+                </div>
+              )}
+            </div>
+          </div>
+
           <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', marginTop: 24, paddingTop: 24 }}>
             <h2 style={{ fontSize: 11, fontWeight: 800, color: '#64748b', marginBottom: 16, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Archives</h2>
             <div {...getResumeProps()} style={{ padding: '20px', borderRadius: 16, border: '2px dashed rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.02)', textAlign: 'center', transition: 'all 0.3s ease' }}>

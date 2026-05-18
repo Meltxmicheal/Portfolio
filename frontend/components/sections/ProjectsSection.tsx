@@ -129,9 +129,9 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         {/* Image Section - Strict 16:9 */}
         <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', overflow: 'hidden' }}>
           <div className="image-overlay" />
-          {project.thumbnail_image ? (
+          {project.cover_image ? (
             <Image 
-              src={project.thumbnail_image} 
+              src={project.cover_image} 
               alt={project.title} 
               fill 
               sizes="(max-width: 768px) 100vw, 33vw"

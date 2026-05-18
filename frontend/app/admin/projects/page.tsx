@@ -11,8 +11,8 @@ interface Project {
   slug: string;
   short_description?: string;
   description?: string;
-  thumbnail_image?: string;
-  gallery_images: string[];
+  cover_image?: string;
+  images: string[];
   technologies: string[];
   github_url?: string;
   live_url?: string;
@@ -25,7 +25,7 @@ interface Project {
 
 const emptyProject: Omit<Project, 'id' | 'created_at'> = {
   title: '', slug: '', short_description: '', description: '',
-  thumbnail_image: '', gallery_images: [], 
+  cover_image: '', images: [], 
   technologies: [], github_url: '',
   live_url: '', category: 'web', status: 'completed',
   is_featured: false, features: []
@@ -85,11 +85,11 @@ export default function AdminProjectsPage() {
     try {
       const { url } = await api.uploadImage(file)
       if (type === 'showcase' && index !== undefined) {
-        const newGallery = [...(selected?.gallery_images || [])]
+        const newGallery = [...(selected?.images || [])]
         newGallery[index] = url
-        setSelected(p => p ? { ...p, gallery_images: newGallery } : p)
+        setSelected(p => p ? { ...p, images: newGallery } : p)
       } else if (type === 'thumbnail') {
-        setSelected(p => p ? { ...p, thumbnail_image: url } : p)
+        setSelected(p => p ? { ...p, cover_image: url } : p)
       }
       toast.success('Uploaded!')
     } catch (e: any) { toast.error(e.message) }
@@ -194,7 +194,7 @@ export default function AdminProjectsPage() {
                 </label>
                 <div style={{ maxWidth: 480 }}>
                   <ImageUpload 
-                    url={selected.thumbnail_image} 
+                    url={selected.cover_image} 
                     onUpload={(f) => onUpload(f, 'thumbnail')} 
                     uploading={uploading === 'thumbnail'} 
                     aspectRatio="16/9"
@@ -212,18 +212,18 @@ export default function AdminProjectsPage() {
                     <div key={idx} style={{ position: 'relative' }}>
                       <label style={{ fontSize: 10, color: '#64748b', display: 'block', marginBottom: 12, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Node {idx + 1}</label>
                       <ImageUpload 
-                        url={selected.gallery_images?.[idx]} 
+                        url={selected.images?.[idx]} 
                         onUpload={(f) => onUpload(f, 'showcase', idx)} 
                         uploading={uploading === `showcase${idx}`} 
                         aspectRatio="16/9"
                         compact
                       />
-                      {selected.gallery_images?.[idx] && (
+                      {selected.images?.[idx] && (
                         <button 
                           onClick={() => {
-                            const newG = [...(selected.gallery_images || [])]
+                            const newG = [...(selected.images || [])]
                             newG[idx] = ''
-                            setSelected(p => p ? { ...p, gallery_images: newG } : p)
+                            setSelected(p => p ? { ...p, images: newG } : p)
                           }}
                           style={{ position: 'absolute', top: 38, right: 12, zIndex: 10, padding: '4px 8px', fontSize: 9, borderRadius: 6, color: '#ef4444', background: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.2)', cursor: 'none', fontWeight: 800, textTransform: 'uppercase' }}
                         >

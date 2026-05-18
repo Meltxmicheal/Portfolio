@@ -124,7 +124,7 @@ export default function ProjectPage() {
             <h2 className="section-heading" style={{ marginBottom: 24, fontSize: 14 }}>Project Gallery</h2>
             <div className="showcase-scroll-area">
               {(() => {
-                const showcaseImages = (project.gallery_images || []).filter(Boolean);
+                const showcaseImages = (project.images || []).filter(Boolean);
                 if (!showcaseImages || showcaseImages.length === 0) {
                   return (
                     <div className="showcase-placeholder">

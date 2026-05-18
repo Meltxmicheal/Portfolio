@@ -73,8 +73,8 @@ export type Project = {
   slug: string
   short_description: string
   description: string
-  thumbnail_image?: string
-  gallery_images: string[]
+  cover_image?: string
+  images: string[]
   technologies: string[]
   github_url: string
   live_url: string

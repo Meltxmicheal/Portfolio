@@ -79,9 +79,9 @@ export default function FeaturedProjectSection({ project }: { project: Project }
             {/* Cinematic Overlay */}
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(124,58,237,0.1) 0%, transparent 50%, rgba(59,130,246,0.05) 100%)', zIndex: 1, mixBlendMode: 'multiply' }} />
             
-            {project.thumbnail_image && (
+            {project.cover_image && (
               <Image 
-                src={project.thumbnail_image} 
+                src={project.cover_image} 
                 alt={project.title} 
                 fill 
                 style={{ objectFit: 'cover' }} 

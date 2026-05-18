@@ -35,7 +35,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <Navbar />
+      <Navbar profile={profile} />
       <main>
         <HeroSection profile={profile} />
         <AboutSection profile={profile} />

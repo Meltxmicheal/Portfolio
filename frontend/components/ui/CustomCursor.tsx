@@ -8,6 +8,12 @@ export default function CustomCursor() {
     const ring = ringRef.current
     if (!ring) return
 
+    const isTouch = window.matchMedia('(hover: none)').matches;
+    if (isTouch) {
+      ring.style.display = 'none';
+      return;
+    }
+
     let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2
     let ringX = window.innerWidth / 2, ringY = window.innerHeight / 2
     let hovering = false

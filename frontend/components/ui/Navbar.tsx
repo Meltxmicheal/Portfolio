@@ -4,6 +4,8 @@ import { useRouter, usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { CLOUDINARY_BASE_URL } from '@/lib/config'
 
+import { Profile } from '@/lib/supabase'
+
 const navLinks = [
   { label: 'About', href: '#about' },
   { label: 'Journey', href: '#journey' },
@@ -11,7 +13,7 @@ const navLinks = [
   { label: 'Contact', href: '#contact' },
 ]
 
-export default function Navbar() {
+export default function Navbar({ profile }: { profile?: Profile | null }) {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('')
@@ -125,6 +127,11 @@ export default function Navbar() {
 
           {/* CTA */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+            {profile?.resume_url && (
+              <a href={profile.resume_url} target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, fontWeight: 600, color: '#FFFFFF', textDecoration: 'none' }}>
+                Resume
+              </a>
+            )}
             <a href="#contact" className="btn-primary" style={{ fontSize: 13, padding: '10px 24px', borderRadius: 12, fontWeight: 700, letterSpacing: '0.02em' }}>
               CONNECT
             </a>

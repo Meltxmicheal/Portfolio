@@ -3,6 +3,18 @@ import { useEffect, useRef } from 'react'
 import { Experience, Education, Skill } from '@/lib/supabase'
 import { motion } from 'framer-motion'
 
+const frontendSkills = ['HTML5', 'CSS3', 'JavaScript', 'React.js', 'TypeScript', 'Next.js', 'Tailwind CSS'];
+const backendSkills = ['Node.js', 'Express.js', 'Python', 'FastAPI', 'PostgreSQL', 'Supabase'];
+const aiSkills = ['Machine Learning', 'Scikit-learn', 'Pandas', 'NumPy', 'LLM APIs'];
+const toolSkills = ['Git', 'GitHub', 'Cloudinary', 'Vercel', 'Figma', 'Framer Motion'];
+
+const skillGroups = [
+  { name: 'Frontend', skills: frontendSkills },
+  { name: 'Backend & Data', skills: backendSkills },
+  { name: 'AI/ML', skills: aiSkills },
+  { name: 'Tools', skills: toolSkills }
+];
+
 interface JourneyProps {
   experience: Experience[]
   skills: Skill[]
@@ -57,7 +69,7 @@ export function JourneySection({ experience, skills, education }: JourneyProps) 
                   <h4 style={{ fontSize: 19, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 6 }}>{exp.role}</h4>
                   <p style={{ fontSize: 14, color: '#c4b5fd', fontWeight: 600, marginBottom: 14, letterSpacing: '0.02em' }}>{exp.company}</p>
                   <p style={{ fontSize: 14, color: '#94a3b8', lineHeight: 1.7, fontWeight: 400 }}>
-                    {exp.description}
+                    {exp.description || (exp.role?.includes('Student') || exp.role?.includes('Fresher') ? "Building end-to-end full stack web applications and exploring advanced AI/ML capabilities. Currently focusing on integrating modern front-end frameworks with robust back-end APIs to deliver scalable, real-world solutions." : "")}
                   </p>
                 </div>
               )) : (
@@ -72,26 +84,26 @@ export function JourneySection({ experience, skills, education }: JourneyProps) 
               <span style={{ fontSize: 20, color: 'var(--violet-glow)' }}>◈</span> Skills
             </h3>
             
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, alignContent: 'flex-start', flex: 1 }}>
-              {skills.length > 0 ? skills.map(skill => (
-                <motion.div 
-                  key={skill.id}
-                  whileHover={{ scale: 1.05, y: -4, backgroundColor: 'rgba(124, 58, 237, 0.15)', borderColor: 'rgba(124, 58, 237, 0.4)' }}
-                  style={{
-                    padding: '10px 22px', borderRadius: 100,
-                    background: 'rgba(255, 255, 255, 0.03)',
-                    border: '1px solid rgba(255, 255, 255, 0.08)',
-                    fontSize: 13, color: '#94a3b8',
-                    fontWeight: 600,
-                    transition: 'all 0.4s cubic-bezier(0.23, 1, 0.32, 1)',
-                    whiteSpace: 'nowrap'
-                  }}
-                >
-                  {skill.name || (skill as any).skill_name}
-                </motion.div>
-              )) : (
-                <p style={{ fontSize: 14, color: 'var(--text-muted)', fontStyle: 'italic' }}>Learning new things...</p>
-              )}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 24, flex: 1 }}>
+              {skillGroups.map(group => (
+                <div key={group.name}>
+                  <h4 style={{ fontSize: 13, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#64748b', marginBottom: 12, fontWeight: 700 }}>{group.name}</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {group.skills.map(skill => (
+                      <span
+                        key={skill}
+                        className="px-3 py-1.5 text-sm font-medium rounded-full
+                                   bg-white/5 border border-white/10
+                                   text-white/80 hover:bg-white/10
+                                   hover:border-white/20 hover:text-white
+                                   transition-all duration-200 cursor-default"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 

@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Project } from '@/lib/supabase'
+import { ExternalLink, Info } from 'lucide-react'
 
 interface ProjectsProps { 
   projects: Project[]
@@ -88,7 +89,7 @@ export default function ProjectsSection({ projects, title: sectionTitle }: Proje
 
         {/* View all link */}
         <div style={{ textAlign: 'center', marginTop: 56 }}>
-          <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="btn-ghost">
+          <a href="https://github.com/Meltxmicheal" target="_blank" rel="noopener noreferrer" className="btn-ghost">
             View More on GitHub
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7h9M8 3.5L11.5 7 8 10.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/></svg>
           </a>
@@ -131,12 +132,13 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           <div className="image-overlay" />
           {project.cover_image ? (
             <Image 
-              src={project.cover_image} 
+              src={project.cover_image.includes('/upload/') ? project.cover_image.replace('/upload/', '/upload/f_auto,q_auto,w_800,ar_16:9,c_fill/') : project.cover_image} 
               alt={project.title} 
               fill 
-              sizes="(max-width: 768px) 100vw, 33vw"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               style={{ objectFit: 'cover', transition: 'transform 0.8s ease' }} 
               className="project-main-image"
+              unoptimized={true}
             />
           ) : (
             <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, #312E81, #7B2FF7)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -179,22 +181,28 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 
           {/* Actions */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-            <Link href={`/projects/${project.slug}`} style={{ textDecoration: 'none' }}>
-              <div className="view-more-btn-v3">
-                <span>View Details</span>
-              </div>
+            <Link href={`/projects/${project.slug}`}
+               className="flex justify-center items-center gap-1.5 px-4 py-2 rounded-lg
+                          border border-white/10 text-white/60 text-sm
+                          hover:text-white hover:border-white/20
+                          transition-all duration-200"
+            >
+              <Info size={14} /> Details
             </Link>
             
             {project.live_url ? (
-              <button 
-                onClick={() => window.open(project.live_url, "_blank")} 
-                className="view-website-btn-v3"
+              <a href={project.live_url} target="_blank"
+                 className="flex justify-center items-center gap-1.5 px-4 py-2 rounded-lg
+                            bg-white/10 border border-white/15
+                            text-white text-sm font-medium
+                            hover:bg-white/20 hover:border-white/25
+                            transition-all duration-200 text-decoration-none"
               >
-                <span>View Website</span>
-              </button>
+                <ExternalLink size={14} /> View Live
+              </a>
             ) : (
-              <button disabled className="view-website-btn-v3" style={{ fontSize: 12 }}>
-                <span>Coming Soon</span>
+              <button disabled className="flex justify-center items-center gap-1.5 px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white/40 text-sm font-medium cursor-not-allowed">
+                Coming Soon
               </button>
             )}
           </div>

@@ -80,7 +80,17 @@ export default function AboutSection({ profile }: AboutProps) {
               >
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(124,58,237,0.1), rgba(59,130,246,0.05))', zIndex: 1, mixBlendMode: 'multiply' }} />
               {profile?.avatar_url ? (
-                <Image src={profile.avatar_url} alt={profile.name} fill style={{ objectFit: 'cover' }} />
+                <Image 
+                  src={profile.avatar_url.includes('/upload/') ? profile.avatar_url.replace('/upload/', '/upload/f_auto,q_auto,w_600,h_600,c_fill,g_face/') : profile.avatar_url} 
+                  alt={profile.name} 
+                  width={600}
+                  height={600}
+                  sizes="(max-width: 768px) 80vw, 300px"
+                  className="rounded-2xl object-cover"
+                  style={{ objectFit: 'cover' }} 
+                  priority
+                  unoptimized={true}
+                />
               ) : (
                 <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, #f3f0ff, #e0e7ff)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <svg width="80" height="80" viewBox="0 0 80 80" fill="none">

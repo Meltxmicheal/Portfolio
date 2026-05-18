@@ -135,6 +135,9 @@ export default function HeroSection({ profile }: HeroProps) {
               <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </a>
+          <a href={profile?.resume_url || "#"} target="_blank" rel="noopener noreferrer" className="btn-ghost" style={{ fontSize: 16, padding: '15px 39px', borderRadius: 12, border: '1px solid rgba(255,255,255,0.1)' }}>
+            Download Resume
+          </a>
           <a href="#contact" className="btn-ghost" style={{ fontSize: 16, padding: '15px 39px', borderRadius: 12, border: '1px solid rgba(255,255,255,0.1)' }}>
             Get in Touch
           </a>

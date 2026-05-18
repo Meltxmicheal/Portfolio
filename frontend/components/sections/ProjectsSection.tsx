@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Project } from '@/lib/supabase'
-import { ExternalLink, Info } from 'lucide-react'
 
 interface ProjectsProps { 
   projects: Project[]
@@ -187,7 +186,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                           hover:text-white hover:border-white/20
                           transition-all duration-200"
             >
-              <Info size={14} /> Details
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinelinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg> Details
             </Link>
             
             {project.live_url ? (
@@ -198,7 +197,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                             hover:bg-white/20 hover:border-white/25
                             transition-all duration-200 text-decoration-none"
               >
-                <ExternalLink size={14} /> View Live
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg> View Live
               </a>
             ) : (
               <button disabled className="flex justify-center items-center gap-1.5 px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white/40 text-sm font-medium cursor-not-allowed">

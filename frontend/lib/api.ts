@@ -79,6 +79,7 @@ export const api = {
   // Media Assets
   getMediaAssets: () => fetcher('/media-assets'),
   createMediaAsset: (data: any) => fetcher('/media-assets', { method: 'POST', body: JSON.stringify(data) }),
+  updateMediaAsset: (id: string, data: any) => fetcher(`/media-assets/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
   deleteMediaAsset: (id: string) => fetcher(`/media-assets/${id}`, { method: 'DELETE' }),
 
   // Upload

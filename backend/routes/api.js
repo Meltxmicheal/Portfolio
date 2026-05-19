@@ -63,6 +63,7 @@ router.put('/social-links', auth, otherController.updateSocialLinks);
 // Media Assets
 router.get('/media-assets', mediaAssetsController.getMediaAssets);
 router.post('/media-assets', auth, mediaAssetsController.createMediaAsset);
+router.put('/media-assets/:id', auth, mediaAssetsController.updateMediaAsset);
 router.delete('/media-assets/:id', auth, mediaAssetsController.deleteMediaAsset);
 
 // Image Upload

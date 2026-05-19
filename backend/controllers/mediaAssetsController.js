@@ -32,4 +32,21 @@ const deleteMediaAsset = async (req, res) => {
   }
 };
 
-module.exports = { getMediaAssets, createMediaAsset, deleteMediaAsset };
+const updateMediaAsset = async (req, res) => {
+  const { id } = req.params;
+  const { image_url, section_name } = req.body;
+  try {
+    const { rows } = await pool.query(
+      'UPDATE media_assets SET image_url = $1, section_name = $2 WHERE id = $3 RETURNING *',
+      [image_url, section_name, id]
+    );
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'Asset not found' });
+    }
+    res.json(rows[0]);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+module.exports = { getMediaAssets, createMediaAsset, deleteMediaAsset, updateMediaAsset };

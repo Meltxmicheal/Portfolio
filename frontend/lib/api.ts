@@ -66,6 +66,7 @@ export const api = {
   // Skills
   getSkills: () => fetcher('/skills'),
   createSkill: (data: any) => fetcher('/skills', { method: 'POST', body: JSON.stringify(data) }),
+  updateSkill: (id: string, data: any) => fetcher(`/skills/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
   deleteSkill: (id: string) => fetcher(`/skills/${id}`, { method: 'DELETE' }),
 
   // Social

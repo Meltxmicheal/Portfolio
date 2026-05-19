@@ -51,6 +51,25 @@ export default function ProfileInfoPage() {
     } catch (err) { toast.error('Failed to remove skill') }
   }
 
+  // SKILLS EDIT LOGIC
+  const [editingSkillId, setEditingSkillId] = useState<string | null>(null)
+  const [editSkillName, setEditSkillName] = useState('')
+  const handleSaveSkill = async (id: string) => {
+    if (!editSkillName.trim()) return
+    try {
+      const existing = skills.find(s => s.id === id)
+      await api.updateSkill(id, { 
+        name: editSkillName, 
+        category: existing?.category || 'other', 
+        proficiency: existing?.proficiency || 100,
+        is_featured: existing?.is_featured || false
+      })
+      setEditingSkillId(null)
+      loadAll()
+      toast.success('Skill updated')
+    } catch (err) { toast.error('Failed to update skill') }
+  }
+
   // EXPERIENCE LOGIC
   const [editExp, setEditExp] = useState<any>(null)
   const handleSaveExperience = async () => {
@@ -192,12 +211,39 @@ export default function ProfileInfoPage() {
             </div>
 
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
-              {skills.map(skill => (
-                <div key={skill.id} className="glass-card" style={{ padding: '12px 20px', borderRadius: 14, display: 'flex', alignItems: 'center', gap: 14, background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255, 255, 255, 0.05)', transition: 'all 0.2s ease' }}>
-                  <span style={{ fontSize: 14, fontWeight: 700, color: '#f8fafc' }}>{skill.name || skill.skill_name}</span>
-                  <button onClick={() => handleDeleteSkill(skill.id)} style={{ background: 'rgba(239, 68, 68, 0.1)', border: 'none', color: '#ef4444', cursor: 'none', fontSize: 18, width: 24, height: 24, borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800 }}>×</button>
-                </div>
-              ))}
+              {skills.map(skill => {
+                const isEditing = editingSkillId === skill.id;
+
+                return (
+                  <div key={skill.id} className="glass-card" style={{ padding: '12px 20px', borderRadius: 14, display: 'flex', alignItems: 'center', gap: 14, background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255, 255, 255, 0.05)', transition: 'all 0.2s ease' }}>
+                    {isEditing ? (
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                        <input 
+                          className="input-field" 
+                          style={{ padding: '6px 12px', fontSize: 13, minWidth: 160 }}
+                          value={editSkillName}
+                          onChange={e => setEditSkillName(e.target.value)}
+                          onKeyDown={e => e.key === 'Enter' && handleSaveSkill(skill.id)}
+                          autoFocus
+                        />
+                        <button onClick={() => handleSaveSkill(skill.id)} style={{ color: '#10b981', background: 'none', border: 'none', fontWeight: 800, fontSize: 14, cursor: 'pointer' }}>✓</button>
+                        <button onClick={() => setEditingSkillId(null)} style={{ color: '#94a3b8', background: 'none', border: 'none', fontWeight: 800, fontSize: 14, cursor: 'pointer' }}>×</button>
+                      </div>
+                    ) : (
+                      <>
+                        <span 
+                          onClick={() => { setEditingSkillId(skill.id); setEditSkillName(skill.name || skill.skill_name); }}
+                          style={{ fontSize: 14, fontWeight: 700, color: '#f8fafc', cursor: 'pointer' }}
+                          title="Click to Edit"
+                        >
+                          {skill.name || skill.skill_name}
+                        </span>
+                        <button onClick={() => handleDeleteSkill(skill.id)} style={{ background: 'rgba(239, 68, 68, 0.1)', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: 18, width: 24, height: 24, borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800 }}>×</button>
+                      </>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
         )}

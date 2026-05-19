@@ -54,6 +54,7 @@ router.delete('/projects/:id', auth, projectController.deleteProject);
 // Skills
 router.get('/skills', otherController.getSkills);
 router.post('/skills', auth, otherController.createSkill);
+router.put('/skills/:id', auth, otherController.updateSkill);
 router.delete('/skills/:id', auth, otherController.deleteSkill);
 
 // Social Links

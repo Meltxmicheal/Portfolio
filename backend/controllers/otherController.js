@@ -33,6 +33,23 @@ const deleteSkill = async (req, res) => {
   }
 };
 
+const updateSkill = async (req, res) => {
+  const { id } = req.params;
+  const { name, category, proficiency, is_featured } = req.body;
+  try {
+    const { rows } = await pool.query(
+      'UPDATE skills SET name = $1, category = $2, proficiency = $3, is_featured = $4 WHERE id = $5 RETURNING *',
+      [name, category, proficiency, is_featured || false, id]
+    );
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'Skill not found' });
+    }
+    res.json(rows[0]);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 // Social Links
 const getSocialLinks = async (req, res) => {
   try {
@@ -59,4 +76,4 @@ const updateSocialLinks = async (req, res) => {
   }
 };
 
-module.exports = { getSkills, createSkill, deleteSkill, getSocialLinks, updateSocialLinks };
+module.exports = { getSkills, createSkill, deleteSkill, updateSkill, getSocialLinks, updateSocialLinks };

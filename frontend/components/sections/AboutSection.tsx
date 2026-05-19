@@ -41,33 +41,34 @@ export default function AboutSection({ profile }: AboutProps) {
   const headRef = useReveal()
   const bioRef = useReveal()
 
-
-
   return (
-    <section id="about" style={{ padding: '120px 24px', position: 'relative' }}>
+    <section id="about" className="py-20 md:py-32 px-6 md:px-12 relative overflow-hidden">
       {/* Blob */}
       <div className="blob" style={{ width: 400, height: 400, background: 'radial-gradient(circle, rgba(37,99,235,0.12) 0%, transparent 70%)', top: '10%', right: '-5%' }} />
 
-      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+      <div className="max-w-6xl mx-auto">
         {/* Section header */}
-        <div ref={headRef} className="reveal" style={{ marginBottom: 72, textAlign: 'center' }}>
-          <p style={{ fontSize: 12, letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--text-muted)', fontFamily: 'JetBrains Mono, monospace', marginBottom: 16 }}>
+        <div ref={headRef} className="reveal text-center mb-16 md:mb-24">
+          <p className="text-xs uppercase tracking-[0.25em] text-slate-500 font-mono mb-4">
             About
           </p>
-          <h2 className="font-display" style={{ fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: 700, letterSpacing: '-0.03em', color: 'var(--text-primary)' }}>
+          <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight">
             About Me
           </h2>
         </div>
 
         {/* Bio + photo */}
-        <div ref={bioRef} className="reveal" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center', marginBottom: 96, position: 'relative' }}>
+        <div ref={bioRef} className="reveal grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center mb-16 md:mb-24 relative">
           {/* Photo */}
-          <div style={{ position: 'relative', perspective: 1000, zIndex: 10 }}>
-            <div style={{ animation: 'float 6s ease-in-out infinite', width: '100%' }}>
+          <div className="lg:col-span-5 flex justify-center w-full relative mb-12 lg:mb-0" style={{ perspective: 1000, zIndex: 10 }}>
+            <div className="w-full max-w-[340px] sm:max-w-[400px] relative" style={{ animation: 'float 6s ease-in-out infinite' }}>
               <motion.div 
                 style={{ 
-                  position: 'relative', width: '100%', maxWidth: 420, aspectRatio: '3/4', 
-                  borderRadius: 24, overflow: 'hidden',
+                  position: 'relative', 
+                  width: '100%', 
+                  aspectRatio: '3/4.4', 
+                  borderRadius: 24, 
+                  overflow: 'hidden',
                   boxShadow: '0 20px 50px rgba(124,58,237,0.15)',
                   border: '1px solid rgba(124,58,237,0.1)',
                   // Sharp viewport focus, blur ONLY on exit
@@ -78,29 +79,43 @@ export default function AboutSection({ profile }: AboutProps) {
                   opacity: typeof window !== 'undefined' ? useTransform(useScroll({ target: bioRef, offset: ["start center", "end start"] }).scrollYProgress, [0.5, 1], [1, 0]) : 1,
                 }}
               >
-              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(124,58,237,0.1), rgba(59,130,246,0.05))', zIndex: 1, mixBlendMode: 'multiply' }} />
-              {profile?.avatar_url ? (
-                <Image 
-                  src={profile.avatar_url.includes('/upload/') ? profile.avatar_url.replace('/upload/', '/upload/f_auto,q_auto,w_600,h_600,c_fill,g_face/') : profile.avatar_url} 
-                  alt={profile.name} 
-                  width={600}
-                  height={600}
-                  sizes="(max-width: 768px) 80vw, 300px"
-                  className="rounded-2xl object-cover"
-                  style={{ objectFit: 'cover' }} 
-                  priority
-                  unoptimized={true}
-                />
-              ) : (
-                <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, #f3f0ff, #e0e7ff)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
-                    <circle cx="40" cy="30" r="16" stroke="var(--violet-glow)" strokeWidth="2" opacity="0.3"/>
-                    <path d="M10 72 C10 54 70 54 70 72" stroke="var(--violet-glow)" strokeWidth="2" fill="none" opacity="0.3"/>
-                  </svg>
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(124,58,237,0.1), rgba(59,130,246,0.05))', zIndex: 1, mixBlendMode: 'multiply' }} />
+                {profile?.avatar_url ? (
+                  <Image 
+                    src={profile.avatar_url.includes('/upload/') ? profile.avatar_url.replace('/upload/', '/upload/f_auto,q_auto,w_800/') : profile.avatar_url} 
+                    alt={profile.name} 
+                    fill
+                    sizes="(max-width: 768px) 80vw, 400px"
+                    className="rounded-2xl object-cover"
+                    style={{ objectFit: 'cover', objectPosition: 'center 15%' }} 
+                    priority
+                    unoptimized={true}
+                  />
+                ) : (
+                  <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, #f3f0ff, #e0e7ff)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+                      <circle cx="40" cy="30" r="16" stroke="var(--violet-glow)" strokeWidth="2" opacity="0.3"/>
+                      <path d="M10 72 C10 54 70 54 70 72" stroke="var(--violet-glow)" strokeWidth="2" fill="none" opacity="0.3"/>
+                    </svg>
+                  </div>
+                )}
+              </motion.div>
+
+              {/* Floating card */}
+              <div className="glass-card absolute -bottom-6 -right-4 sm:-right-6 md:-right-8" style={{ 
+                padding: '16px 28px', borderRadius: 20, 
+                minWidth: 160, zIndex: 20, 
+                border: '1px solid rgba(255,255,255,0.1)', 
+                background: 'rgba(10, 1, 30, 0.75)', 
+                backdropFilter: 'blur(20px)',
+                boxShadow: '0 10px 40px rgba(0,0,0,0.3)' 
+              }}>
+                <div style={{ fontSize: 20, fontWeight: 700, color: '#c4b5fd', fontFamily: 'Clash Display, sans-serif', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  {profile?.status_badge || 'Fresher'}
                 </div>
-              )}
-            </motion.div>
-          </div>
+                <div style={{ fontSize: 10, color: 'var(--text-muted)', marginTop: 4, textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 600 }}>Current Status</div>
+              </div>
+            </div>
             
             {/* Animated Glow Trail Connection */}
             <motion.div 
@@ -113,48 +128,32 @@ export default function AboutSection({ profile }: AboutProps) {
                 opacity: typeof window !== 'undefined' ? useTransform(useScroll({ target: bioRef, offset: ["start center", "end start"] }).scrollYProgress, [0, 0.5, 1], [0, 1, 0]) : 0,
               }}
             />
-
-            {/* Floating card */}
-            <div className="glass-card" style={{ 
-              position: 'absolute', bottom: -24, right: -24, 
-              padding: '20px 32px', borderRadius: 20, 
-              minWidth: 180, zIndex: 20, 
-              border: '1px solid rgba(255,255,255,0.1)', 
-              background: 'rgba(10, 1, 30, 0.6)', 
-              backdropFilter: 'blur(20px)',
-              boxShadow: '0 10px 40px rgba(0,0,0,0.3)' 
-            }}>
-              <div style={{ fontSize: 24, fontWeight: 700, color: '#c4b5fd', fontFamily: 'Clash Display, sans-serif', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                {profile?.status_badge || 'Fresher'}
-              </div>
-              <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 4, textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 600 }}>Current Status</div>
-            </div>
           </div>
 
           {/* Text */}
-          <div>
-            <h3 className="font-display" style={{ fontSize: 'clamp(28px, 4vw, 36px)', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 24, letterSpacing: '-0.03em' }}>
+          <div className="lg:col-span-7 text-center lg:text-left flex flex-col items-center lg:items-start">
+            <h3 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6 tracking-tight leading-tight">
               Building the Future with AI
             </h3>
-            <p style={{ fontSize: 'clamp(15px, 1.1vw, 17px)', lineHeight: 1.8, color: '#94a3b8', marginBottom: 32, fontWeight: 400 }}>
+            <p className="text-base sm:text-lg text-slate-400 mb-8 max-w-2xl leading-relaxed font-normal">
               {profile?.about || 'I am a passionate AI & ML Engineering student with a focus on building intelligent systems and modern web applications. I love exploring the intersection of data science and full-stack development.'}
             </p>
-            <div style={{ display: 'grid', gap: 16, marginBottom: 40 }}>
+            <div className="flex flex-col gap-4 mb-8 w-full max-w-md">
               {[
                 { icon: '📍', label: profile?.location || 'San Francisco, CA' },
                 { icon: '📧', label: 'michealjohnsonraj16@gmail.com' },
                 { icon: '💼', label: 'Open to Internships' },
               ].map((item, i) => (
-                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 14, fontSize: 15, color: '#94a3b8' }}>
-                  <span style={{ fontSize: 18 }}>{item.icon}</span>
-                  <span style={{ fontWeight: 500 }}>{item.label}</span>
+                <div key={i} className="flex items-center gap-4 text-slate-300 justify-center lg:justify-start">
+                  <span className="text-lg">{item.icon}</span>
+                  <span className="font-medium text-sm sm:text-base">{item.label}</span>
                 </div>
               ))}
             </div>
 
             {/* Resume download */}
             {profile?.resume_url && (
-              <a href={profile.resume_url} download className="btn-primary" style={{ display: 'inline-flex', padding: '16px 36px', borderRadius: 12, fontSize: 15 }}>
+              <a href={profile.resume_url} download className="btn-primary inline-flex py-4 px-8 rounded-xl text-sm sm:text-base transition-all duration-300 shadow-lg shadow-violet-500/10">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style={{ marginRight: 10 }}>
                   <path d="M12 15V3M12 15L8 11M12 15L16 11M5 21H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
@@ -163,7 +162,6 @@ export default function AboutSection({ profile }: AboutProps) {
             )}
           </div>
         </div>
-
       </div>
     </section>
   )

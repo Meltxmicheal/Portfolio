@@ -125,20 +125,23 @@ export default function HeroSection({ profile }: HeroProps) {
         </p>
 
         {/* CTA Buttons */}
-        <div style={{
-          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 24, flexWrap: 'wrap',
-          opacity: 0, animation: 'fadeUp 0.8s 1s ease forwards',
-        }}>
-          <a href="#projects" className="btn-primary" style={{ fontSize: 16, padding: '16px 40px', borderRadius: 12 }}>
+        <div 
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 max-w-2xl mx-auto px-4"
+          style={{
+            opacity: 0, 
+            animation: 'fadeUp 0.8s 1s ease forwards',
+          }}
+        >
+          <a href="#projects" className="btn-primary w-full sm:w-auto justify-center" style={{ fontSize: 15, padding: '14px 32px', borderRadius: 12 }}>
             View My Work
             <svg width="18" height="18" viewBox="0 0 16 16" fill="none" style={{ marginLeft: 8 }}>
               <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </a>
-          <a href={profile?.resume_url || "#"} target="_blank" rel="noopener noreferrer" className="btn-ghost" style={{ fontSize: 16, padding: '15px 39px', borderRadius: 12, border: '1px solid rgba(255,255,255,0.1)' }}>
+          <a href={profile?.resume_url || "#"} target="_blank" rel="noopener noreferrer" className="btn-ghost w-full sm:w-auto justify-center" style={{ fontSize: 15, padding: '13px 31px', borderRadius: 12, border: '1px solid rgba(255,255,255,0.1)' }}>
             Download Resume
           </a>
-          <a href="#contact" className="btn-ghost" style={{ fontSize: 16, padding: '15px 39px', borderRadius: 12, border: '1px solid rgba(255,255,255,0.1)' }}>
+          <a href="#contact" className="btn-ghost w-full sm:w-auto justify-center" style={{ fontSize: 15, padding: '13px 31px', borderRadius: 12, border: '1px solid rgba(255,255,255,0.1)' }}>
             Get in Touch
           </a>
         </div>

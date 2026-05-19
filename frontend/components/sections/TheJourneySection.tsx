@@ -40,59 +40,54 @@ export function JourneySection({ experience, skills, education }: JourneyProps) 
   const contentRef = useReveal()
 
   return (
-    <section id="journey" style={{ padding: '120px 24px', position: 'relative' }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-        <div ref={headRef} className="reveal" style={{ textAlign: 'center', marginBottom: 72 }}>
-          <p style={{ fontSize: 12, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'rgba(167,139,250,0.6)', fontFamily: 'JetBrains Mono, monospace', marginBottom: 16, fontWeight: 700 }}>
+    <section id="journey" className="py-20 md:py-32 px-6 md:px-12 relative overflow-hidden">
+      <div className="max-w-6xl mx-auto">
+        <div ref={headRef} className="reveal text-center mb-16 md:mb-24">
+          <p className="text-xs uppercase tracking-[0.3em] text-violet-400 font-mono mb-4 font-bold">
             The Journey
           </p>
-          <h2 className="font-display" style={{ fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: 700, letterSpacing: '-0.04em', color: 'var(--text-primary)' }}>
+          <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight">
             Experience & Expertise
           </h2>
         </div>
 
-        <div ref={contentRef} className="reveal reveal-delay-2" style={{ 
-          display: 'grid', 
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', 
-          gap: 32,
-          alignItems: 'stretch'
-        }}>
+        <div ref={contentRef} className="reveal reveal-delay-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
           {/* 1. EXPERIENCE */}
-          <div className="glass-card" style={{ padding: 40, borderRadius: 24, display: 'flex', flexDirection: 'column', background: 'rgba(10, 1, 30, 0.4)', border: '1px solid rgba(255,255,255,0.05)' }}>
-            <h3 className="font-display" style={{ fontSize: 22, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 32, display: 'flex', alignItems: 'center', gap: 14 }}>
-              <span style={{ fontSize: 20, color: 'var(--violet-glow)' }}>💼</span> Experience
+          <div className="glass-card flex flex-col p-6 sm:p-10 rounded-[24px] bg-slate-950/40 border border-white/5 relative overflow-hidden">
+            <h3 className="font-display text-lg sm:text-xl font-bold text-white mb-8 flex items-center gap-3">
+              <span className="text-lg text-violet-400">💼</span> Experience
             </h3>
             
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 32, flex: 1 }}>
+            <div className="flex flex-col gap-8 flex-1">
               {experience.length > 0 ? experience.map(exp => (
                 <div key={exp.id}>
-                  <h4 style={{ fontSize: 19, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 6 }}>{exp.role}</h4>
-                  <p style={{ fontSize: 14, color: '#c4b5fd', fontWeight: 600, marginBottom: 14, letterSpacing: '0.02em' }}>{exp.company}</p>
-                  <p style={{ fontSize: 14, color: '#94a3b8', lineHeight: 1.7, fontWeight: 400 }}>
+                  <h4 className="text-base sm:text-lg font-bold text-white mb-1">{exp.role}</h4>
+                  <p className="text-xs sm:text-sm text-violet-300 font-semibold mb-3 tracking-wide">{exp.company}</p>
+                  <p className="text-xs sm:text-sm text-slate-400 leading-relaxed font-normal">
                     {exp.description || (exp.role?.includes('Student') || exp.role?.includes('Fresher') ? "Building end-to-end full stack web applications and exploring advanced AI/ML capabilities. Currently focusing on integrating modern front-end frameworks with robust back-end APIs to deliver scalable, real-world solutions." : "")}
                   </p>
                 </div>
               )) : (
-                <p style={{ fontSize: 14, color: 'var(--text-muted)', fontStyle: 'italic' }}>Details coming soon...</p>
+                <p className="text-sm text-slate-500 italic">Details coming soon...</p>
               )}
             </div>
           </div>
 
           {/* 2. SKILLS */}
-          <div className="glass-card" style={{ padding: 40, borderRadius: 24, display: 'flex', flexDirection: 'column', background: 'rgba(10, 1, 30, 0.4)', border: '1px solid rgba(255,255,255,0.05)' }}>
-            <h3 className="font-display" style={{ fontSize: 22, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 32, display: 'flex', alignItems: 'center', gap: 14 }}>
-              <span style={{ fontSize: 20, color: 'var(--violet-glow)' }}>◈</span> Skills
+          <div className="glass-card flex flex-col p-6 sm:p-10 rounded-[24px] bg-slate-950/40 border border-white/5 relative overflow-hidden">
+            <h3 className="font-display text-lg sm:text-xl font-bold text-white mb-8 flex items-center gap-3">
+              <span className="text-lg text-violet-400">◈</span> Skills
             </h3>
             
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 24, flex: 1 }}>
+            <div className="flex flex-col gap-6 flex-1">
               {skillGroups.map(group => (
                 <div key={group.name}>
-                  <h4 style={{ fontSize: 13, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#64748b', marginBottom: 12, fontWeight: 700 }}>{group.name}</h4>
+                  <h4 className="text-xs uppercase tracking-wider text-slate-500 mb-3 font-bold">{group.name}</h4>
                   <div className="flex flex-wrap gap-2">
                     {group.skills.map(skill => (
                       <span
                         key={skill}
-                        className="px-3 py-1.5 text-sm font-medium rounded-full
+                        className="px-3 py-1.5 text-xs font-semibold rounded-full
                                    bg-white/5 border border-white/10
                                    text-white/80 hover:bg-white/10
                                    hover:border-white/20 hover:text-white
@@ -108,25 +103,25 @@ export function JourneySection({ experience, skills, education }: JourneyProps) 
           </div>
 
           {/* 3. EDUCATION */}
-          <div className="glass-card" style={{ padding: 40, borderRadius: 24, display: 'flex', flexDirection: 'column', background: 'rgba(10, 1, 30, 0.4)', border: '1px solid rgba(255,255,255,0.05)' }}>
-            <h3 className="font-display" style={{ fontSize: 22, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 32, display: 'flex', alignItems: 'center', gap: 14 }}>
-              <span style={{ fontSize: 20, color: 'var(--violet-glow)' }}>🎓</span> Education
+          <div className="glass-card flex flex-col p-6 sm:p-10 rounded-[24px] bg-slate-950/40 border border-white/5 relative overflow-hidden">
+            <h3 className="font-display text-lg sm:text-xl font-bold text-white mb-8 flex items-center gap-3">
+              <span className="text-lg text-violet-400">🎓</span> Education
             </h3>
             
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 32, flex: 1 }}>
+            <div className="flex flex-col gap-8 flex-1">
               {education.length > 0 ? education.map(edu => (
                 <div key={edu.id}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 6 }}>
-                    <h4 style={{ fontSize: 18, fontWeight: 700, color: 'var(--text-primary)', flex: 1, lineHeight: 1.3 }}>{edu.degree}</h4>
-                    <span style={{ fontSize: 11, color: 'var(--violet-glow)', fontFamily: 'JetBrains Mono, monospace', marginLeft: 12, fontWeight: 700, background: 'rgba(124, 58, 237, 0.1)', padding: '2px 8px', borderRadius: 4 }}>
+                  <div className="flex justify-between items-start gap-2 mb-2">
+                    <h4 className="text-sm sm:text-base font-bold text-white leading-snug flex-1">{edu.degree}</h4>
+                    <span className="text-[10px] sm:text-xs text-violet-400 font-mono font-bold bg-violet-500/10 px-2 py-0.5 rounded border border-violet-500/20 whitespace-nowrap">
                       {edu.start_year}—{edu.end_year || 'Present'}
                     </span>
                   </div>
-                  <p style={{ fontSize: 14, color: '#c4b5fd', fontWeight: 600, marginBottom: 10, letterSpacing: '0.02em' }}>{edu.field}</p>
-                  <p style={{ fontSize: 14, color: '#94a3b8', fontWeight: 400 }}>{edu.institution}</p>
+                  <p className="text-xs sm:text-sm text-violet-300 font-semibold mb-2 tracking-wide">{edu.field}</p>
+                  <p className="text-xs sm:text-sm text-slate-400 font-medium">{edu.institution}</p>
                 </div>
               )) : (
-                <p style={{ fontSize: 14, color: 'var(--text-muted)', fontStyle: 'italic' }}>Graduating soon...</p>
+                <p className="text-sm text-slate-500 italic">Graduating soon...</p>
               )}
             </div>
           </div>

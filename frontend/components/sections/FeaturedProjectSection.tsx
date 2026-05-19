@@ -81,10 +81,11 @@ export default function FeaturedProjectSection({ project }: { project: Project }
             
             {project.cover_image && (
               <Image 
-                src={project.cover_image} 
+                src={project.cover_image.includes('/upload/') ? project.cover_image.replace('/upload/', '/upload/f_auto,q_auto,w_1200,ar_16:9,c_fill/') : project.cover_image} 
                 alt={project.title} 
                 fill 
                 style={{ objectFit: 'cover' }} 
+                unoptimized={true}
               />
             )}
             

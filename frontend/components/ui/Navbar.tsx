@@ -126,7 +126,7 @@ export default function Navbar({ profile }: { profile?: Profile | null }) {
           </div>
 
           {/* CTA */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          <div className="hidden-mobile" style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
             {profile?.resume_url && (
               <a href={profile.resume_url} target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, fontWeight: 600, color: '#FFFFFF', textDecoration: 'none' }}>
                 Resume
@@ -154,23 +154,48 @@ export default function Navbar({ profile }: { profile?: Profile | null }) {
           transition: 'transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)',
           zIndex: 9000
         }}>
-          {navLinks.map(link => {
-            const isActive = activeSection === link.href.slice(1);
-            return (
-              <a
-                key={link.href}
-                href={`/${link.href}`}
-                onClick={(e) => { setMenuOpen(false); handleNavClick(e, link.href); }}
-                style={{
-                  fontSize: 20, fontWeight: 600, textDecoration: 'none',
-                  color: isActive ? '#FFFFFF' : '#94a3b8',
-                  padding: '12px 0', borderBottom: '1px solid rgba(255,255,255,0.05)'
-                }}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            {navLinks.map(link => {
+              const isActive = activeSection === link.href.slice(1);
+              return (
+                <a
+                  key={link.href}
+                  href={`/${link.href}`}
+                  onClick={(e) => { setMenuOpen(false); handleNavClick(e, link.href); }}
+                  style={{
+                    fontSize: 20, fontWeight: 600, textDecoration: 'none',
+                    color: isActive ? '#FFFFFF' : '#94a3b8',
+                    padding: '12px 0', borderBottom: '1px solid rgba(255,255,255,0.05)'
+                  }}
+                >
+                  {link.label}
+                </a>
+              );
+            })}
+          </div>
+
+          {/* Mobile CTA Buttons */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginTop: 'auto', paddingBottom: 24 }}>
+            {profile?.resume_url && (
+              <a 
+                href={profile.resume_url} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="btn-ghost" 
+                style={{ justifyContent: 'center', padding: '12px', fontSize: 14, borderRadius: 10 }}
               >
-                {link.label}
+                Resume
               </a>
-            );
-          })}
+            )}
+            <a 
+              href="#contact" 
+              onClick={() => setMenuOpen(false)} 
+              className="btn-primary" 
+              style={{ justifyContent: 'center', padding: '12px', fontSize: 14, borderRadius: 10 }}
+            >
+              Connect
+            </a>
+          </div>
         </div>
       </nav>
 

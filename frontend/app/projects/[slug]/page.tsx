@@ -143,7 +143,7 @@ export default function ProjectPage() {
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                   >
                     <img
-                      src={image}
+                      src={image.includes('/upload/') ? image.replace('/upload/', '/upload/f_auto,q_auto,w_800,ar_16:9,c_fill/') : image}
                       alt={`Project Showcase ${index + 1}`}
                       loading="lazy"
                     />

@@ -41,28 +41,28 @@ export default function ContactSection({ profile }: ContactProps) {
   ]
 
   return (
-    <section id="contact" style={{ padding: '120px 24px 80px', position: 'relative' }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+    <section id="contact" className="py-20 md:py-32 px-6 md:px-12 relative overflow-hidden">
+      <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div ref={headRef} className="reveal" style={{ textAlign: 'center', marginBottom: 72 }}>
-          <p style={{ fontSize: 12, letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--text-muted)', fontFamily: 'JetBrains Mono, monospace', marginBottom: 16 }}>
+        <div ref={headRef} className="reveal text-center mb-16 md:mb-24">
+          <p className="text-xs uppercase tracking-[0.25em] text-slate-500 font-mono mb-4">
             Contact
           </p>
-          <h2 className="font-display" style={{ fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: 700, letterSpacing: '-0.03em', color: 'var(--text-primary)', marginBottom: 16 }}>
+          <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight mb-6">
             Let&apos;s Build Something
           </h2>
-          <p style={{ fontSize: 15, color: 'var(--text-secondary)', maxWidth: 480, margin: '0 auto' }}>
+          <p className="text-base sm:text-lg text-slate-400 max-w-xl mx-auto leading-relaxed">
             Have a project in mind or just want to connect? My inbox is always open.
           </p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 64, alignItems: 'start' }}>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           {/* Left: Social links & Image */}
-          <div ref={headRef} className="reveal">
-            <h3 className="font-display" style={{ fontSize: 24, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 12 }}>Find Me Online</h3>
-            <div className="section-divider" style={{ marginBottom: 32, width: 60, height: 4, background: 'var(--violet-glow)', borderRadius: 2 }} />
+          <div ref={headRef} className="reveal lg:col-span-5 w-full">
+            <h3 className="font-display text-2xl font-bold text-white mb-3">Find Me Online</h3>
+            <div className="section-divider mb-8 w-16 h-1 bg-violet-500 rounded-full" />
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 40 }}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
               {socials.map(s => (
                 <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" style={{
                   display: 'flex', alignItems: 'center', gap: 14,
@@ -94,7 +94,7 @@ export default function ContactSection({ profile }: ContactProps) {
             </div>
 
             {/* Contact Image */}
-            <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', borderRadius: 24, overflow: 'hidden', border: '1px solid rgba(255, 255, 255, 0.08)', boxShadow: '0 20px 60px rgba(0,0,0,0.4)' }}>
+            <div className="relative w-full aspectRatio-[16/9] rounded-3xl overflow-hidden border border-white/10 shadow-2xl shadow-black/60">
               {/* Floating glow background */}
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(124,58,237,0.15) 0%, rgba(59,130,246,0.1) 100%)', mixBlendMode: 'screen', zIndex: 1 }} />
               
@@ -102,37 +102,37 @@ export default function ContactSection({ profile }: ContactProps) {
               {profile?.contact_image_url ? (
                 <img src={(profile as any).contact_image_url} alt="Contact" style={{ width: '100%', height: '100%', objectFit: 'cover', animation: 'float 6s ease-in-out infinite' }} />
               ) : (
-                <div style={{ width: '100%', height: '100%', background: 'rgba(10, 1, 30, 0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <span style={{ color: '#64748b', fontSize: 14, fontWeight: 500 }}>Micheal Johnson RajP</span>
+                <div className="w-full h-48 sm:h-64 bg-slate-900/40 flex items-center justify-center border border-white/5 rounded-3xl">
+                  <span className="color-[#64748b] text-sm font-semibold tracking-wide uppercase">Micheal Johnson Raj P</span>
                 </div>
               )}
             </div>
           </div>
 
           {/* Right: Contact form */}
-          <div ref={formRef} className="reveal reveal-delay-2">
-            <div className="glass-card" style={{ padding: 48, borderRadius: 24, background: 'rgba(10, 1, 30, 0.4)', border: '1px solid rgba(255,255,255,0.05)' }}>
-              <h3 className="font-display" style={{ fontSize: 24, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 32, letterSpacing: '-0.02em' }}>Send a Message</h3>
-              <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+          <div ref={formRef} className="reveal lg:col-span-7 w-full">
+            <div className="glass-card p-6 sm:p-10 md:p-12 rounded-[24px] bg-slate-950/40 border border-white/5 shadow-xl relative overflow-hidden">
+              <h3 className="font-display text-2xl font-bold text-white mb-8 tracking-tight">Send a Message</h3>
+              <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
-                    <label style={{ fontSize: 11, color: '#64748b', letterSpacing: '0.15em', textTransform: 'uppercase', display: 'block', marginBottom: 10, fontWeight: 700 }}>Name</label>
-                    <input className="input-field" type="text" placeholder="Your Name" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} required />
+                    <label className="text-[10px] sm:text-xs text-slate-500 uppercase tracking-widest block mb-2.5 font-bold">Name</label>
+                    <input className="input-field w-full" type="text" placeholder="Your Name" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} required />
                   </div>
                   <div>
-                    <label style={{ fontSize: 11, color: '#64748b', letterSpacing: '0.15em', textTransform: 'uppercase', display: 'block', marginBottom: 10, fontWeight: 700 }}>Email</label>
-                    <input className="input-field" type="email" placeholder="email@example.com" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} required />
+                    <label className="text-[10px] sm:text-xs text-slate-500 uppercase tracking-widest block mb-2.5 font-bold">Email</label>
+                    <input className="input-field w-full" type="email" placeholder="email@example.com" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} required />
                   </div>
                 </div>
                 <div>
-                  <label style={{ fontSize: 11, color: '#64748b', letterSpacing: '0.15em', textTransform: 'uppercase', display: 'block', marginBottom: 10, fontWeight: 700 }}>Subject</label>
-                  <input className="input-field" type="text" placeholder="Project collaboration" value={form.subject} onChange={e => setForm(f => ({ ...f, subject: e.target.value }))} />
+                  <label className="text-[10px] sm:text-xs text-slate-500 uppercase tracking-widest block mb-2.5 font-bold">Subject</label>
+                  <input className="input-field w-full" type="text" placeholder="Project collaboration" value={form.subject} onChange={e => setForm(f => ({ ...f, subject: e.target.value }))} />
                 </div>
                 <div>
-                  <label style={{ fontSize: 11, color: '#64748b', letterSpacing: '0.15em', textTransform: 'uppercase', display: 'block', marginBottom: 10, fontWeight: 700 }}>Message</label>
-                  <textarea className="input-field" rows={5} placeholder="Tell me about your project..." value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))} required style={{ resize: 'vertical', minHeight: 140 }} />
+                  <label className="text-[10px] sm:text-xs text-slate-500 uppercase tracking-widest block mb-2.5 font-bold">Message</label>
+                  <textarea className="input-field w-full" rows={5} placeholder="Tell me about your project..." value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))} required style={{ resize: 'vertical', minHeight: 140 }} />
                 </div>
-                <button type="submit" className="btn-primary" style={{ marginTop: 8, justifyContent: 'center', padding: '18px', borderRadius: 16, fontSize: 16 }}>
+                <button type="submit" className="btn-primary w-full justify-center py-4 px-6 mt-4 rounded-xl text-base font-bold shadow-lg shadow-violet-500/10">
                   Send Message
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style={{ marginLeft: 10 }}>
                     <path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>

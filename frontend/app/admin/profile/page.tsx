@@ -5,19 +5,7 @@ import { useDropzone } from 'react-dropzone'
 import toast from 'react-hot-toast'
 import Image from 'next/image'
 
-// Define the Profile type locally or import it if shared
-interface Profile {
-  id: number;
-  name: string;
-  role?: string;
-  bio?: string;
-  profile_image?: string;
-  avatar_url?: string;
-  logo_url?: string;
-  contact_image_url?: string;
-  resume_url?: string;
-  [key: string]: any;
-}
+import { Profile } from '@/lib/supabase'
 
 export default function AdminProfilePage() {
   const [profile, setProfile] = useState<Profile | null>(null)

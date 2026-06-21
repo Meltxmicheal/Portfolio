@@ -46,7 +46,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     } else {
       setLoading(false)
     }
-  }, [pathname])
+  }, [pathname, router])
 
   const handleSignOut = () => {
     localStorage.removeItem('admin_token')

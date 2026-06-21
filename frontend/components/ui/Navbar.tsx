@@ -52,15 +52,19 @@ export default function Navbar({ profile }: { profile?: Profile | null }) {
 
   return (
     <>
-      <nav style={{
-        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 9000,
-        padding: '0 24px',
-        transition: 'all 0.4s cubic-bezier(0.23, 1, 0.32, 1)',
-        background: scrolled ? 'rgba(10, 10, 25, 0.85)' : 'rgba(10, 10, 25, 0.55)',
-        backdropFilter: 'blur(16px)',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-        boxShadow: scrolled ? '0 10px 40px rgba(0,0,0,0.4)' : 'none'
-      }}>
+      <nav 
+        style={{
+          position: 'fixed', top: 0, left: 0, right: 0, zIndex: 9000,
+          padding: '0 24px',
+          transition: 'all 0.4s cubic-bezier(0.23, 1, 0.32, 1)',
+          background: scrolled ? 'rgba(10, 10, 25, 0.85)' : 'rgba(10, 10, 25, 0.55)',
+          backdropFilter: 'blur(16px)',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+          boxShadow: scrolled ? '0 10px 40px rgba(0,0,0,0.4)' : 'none'
+        }}
+        role="navigation"
+        aria-label="Main navigation"
+      >
         <div style={{ maxWidth: 1200, margin: '0 auto', height: 68, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           {/* Logo */}
           <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none' }}>

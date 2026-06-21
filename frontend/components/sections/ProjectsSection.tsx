@@ -38,7 +38,7 @@ export default function ProjectsSection({ projects, title: sectionTitle }: Proje
   const filtered = filter === 'all' ? projects : projects.filter(p => p.category === filter)
 
   return (
-    <section id="projects" className="py-20 md:py-32 px-6 md:px-12 relative overflow-hidden" style={{ background: 'transparent' }}>
+    <section id="projects" className="py-20 md:py-32 px-6 md:px-12 relative overflow-hidden" style={{ background: 'transparent' }} role="region" aria-label="Projects portfolio section">
       <div className="blob" style={{ width: 500, height: 500, background: 'radial-gradient(circle, rgba(124,58,237,0.05) 0%, transparent 70%)', top: '20%', left: '-10%' }} />
 
       <div className="max-w-6xl mx-auto">
@@ -130,11 +130,12 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           {project.cover_image ? (
             <Image 
               src={project.cover_image.includes('/upload/') ? project.cover_image.replace('/upload/', '/upload/f_auto,q_auto,w_800,ar_16:9,c_fill/') : project.cover_image} 
-              alt={project.title} 
+              alt={`${project.title} project cover`} 
               fill 
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               style={{ objectFit: 'cover', transition: 'transform 0.8s ease' }} 
               className="project-main-image"
+              loading="lazy"
               unoptimized={true}
             />
           ) : (

@@ -41,8 +41,20 @@ export default function AboutSection({ profile }: AboutProps) {
   const headRef = useReveal()
   const bioRef = useReveal()
 
+  // Unconditional hook calls for Framer Motion scroll and transform values to comply with Rules of Hooks
+  const scrollInfo = useScroll({ target: bioRef, offset: ["start center", "end start"] })
+  const transformY = useTransform(scrollInfo.scrollYProgress, [0.5, 1], [0, 100])
+  const transformX = useTransform(scrollInfo.scrollYProgress, [0.5, 1], [0, 100])
+  const transformScale = useTransform(scrollInfo.scrollYProgress, [0.5, 1], [1, 0.9])
+  const transformFilter = useTransform(scrollInfo.scrollYProgress, [0.7, 1], ["blur(0px)", "blur(12px)"])
+  const transformOpacity = useTransform(scrollInfo.scrollYProgress, [0.5, 1], [1, 0])
+
+  const connectionY = useTransform(scrollInfo.scrollYProgress, [0, 1], [0, 300])
+  const connectionX = useTransform(scrollInfo.scrollYProgress, [0, 1], [0, 300])
+  const connectionOpacity = useTransform(scrollInfo.scrollYProgress, [0, 0.5, 1], [0, 1, 0])
+
   return (
-    <section id="about" className="py-20 md:py-32 px-6 md:px-12 relative overflow-hidden">
+    <section id="about" className="py-20 md:py-32 px-6 md:px-12 relative overflow-hidden" role="region" aria-label="About me section">
       {/* Blob */}
       <div className="blob" style={{ width: 400, height: 400, background: 'radial-gradient(circle, rgba(37,99,235,0.12) 0%, transparent 70%)', top: '10%', right: '-5%' }} />
 
@@ -72,23 +84,24 @@ export default function AboutSection({ profile }: AboutProps) {
                   boxShadow: '0 20px 50px rgba(124,58,237,0.15)',
                   border: '1px solid rgba(124,58,237,0.1)',
                   // Sharp viewport focus, blur ONLY on exit
-                  y: typeof window !== 'undefined' ? useTransform(useScroll({ target: bioRef, offset: ["start center", "end start"] }).scrollYProgress, [0.5, 1], [0, 100]) : 0,
-                  x: typeof window !== 'undefined' ? useTransform(useScroll({ target: bioRef, offset: ["start center", "end start"] }).scrollYProgress, [0.5, 1], [0, 100]) : 0,
-                  scale: typeof window !== 'undefined' ? useTransform(useScroll({ target: bioRef, offset: ["start center", "end start"] }).scrollYProgress, [0.5, 1], [1, 0.9]) : 1,
-                  filter: typeof window !== 'undefined' ? useTransform(useScroll({ target: bioRef, offset: ["start center", "end start"] }).scrollYProgress, [0.7, 1], ["blur(0px)", "blur(12px)"]) : "blur(0px)",
-                  opacity: typeof window !== 'undefined' ? useTransform(useScroll({ target: bioRef, offset: ["start center", "end start"] }).scrollYProgress, [0.5, 1], [1, 0]) : 1,
+                  y: transformY,
+                  x: transformX,
+                  scale: transformScale,
+                  filter: transformFilter,
+                  opacity: transformOpacity,
                 }}
               >
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(124,58,237,0.1), rgba(59,130,246,0.05))', zIndex: 1, mixBlendMode: 'multiply' }} />
                 {profile?.avatar_url ? (
                   <Image 
                     src={profile.avatar_url.includes('/upload/') ? profile.avatar_url.replace('/upload/', '/upload/f_auto,q_auto,w_800/') : profile.avatar_url} 
-                    alt={profile.name} 
+                    alt={`Portrait of ${profile.name}`} 
                     fill
                     sizes="(max-width: 768px) 80vw, 400px"
                     className="rounded-2xl object-cover"
                     style={{ objectFit: 'cover', objectPosition: 'center 15%' }} 
                     priority
+                    loading="eager"
                     unoptimized={true}
                   />
                 ) : (
@@ -123,9 +136,9 @@ export default function AboutSection({ profile }: AboutProps) {
                 position: 'absolute', top: '50%', left: '50%', width: '100%', height: '100%',
                 background: 'radial-gradient(ellipse, rgba(124,58,237,0.2) 0%, rgba(59,130,246,0.1) 50%, transparent 70%)',
                 filter: 'blur(60px)', zIndex: -1, pointerEvents: 'none',
-                y: typeof window !== 'undefined' ? useTransform(useScroll({ target: bioRef, offset: ["start center", "end start"] }).scrollYProgress, [0, 1], [0, 300]) : 0,
-                x: typeof window !== 'undefined' ? useTransform(useScroll({ target: bioRef, offset: ["start center", "end start"] }).scrollYProgress, [0, 1], [0, 300]) : 0,
-                opacity: typeof window !== 'undefined' ? useTransform(useScroll({ target: bioRef, offset: ["start center", "end start"] }).scrollYProgress, [0, 0.5, 1], [0, 1, 0]) : 0,
+                y: connectionY,
+                x: connectionX,
+                opacity: connectionOpacity,
               }}
             />
           </div>

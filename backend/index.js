@@ -30,7 +30,7 @@ app.use(cors({
 app.use(helmet());
 app.use(express.json({ limit: '10mb' }));
 
-// ── Rate limiting ─────────────────────────────────────────────────────────────
+// ── General Rate limiting ─────────────────────────────────────────────────────
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 500, // Increased from 100 to 500
@@ -39,10 +39,26 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
+// ── Strict rate limiting for contact form (public endpoint) ──────────────────
+const contactLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 5, // Max 5 messages per IP per hour
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: 'Too many messages sent from this IP, please try again later.',
+  skip: (req) => {
+    // Don't count authenticated requests (admins)
+    return !!req.header('Authorization');
+  },
+});
+
 // ── Health check (before routes so it is always reachable) ───────────────────
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Backend is running', timestamp: new Date().toISOString() });
 });
+
+// ── Apply contact form rate limiter to the contact endpoint ──────────────────
+app.use('/api/messages', contactLimiter);
 
 // ── API Routes ────────────────────────────────────────────────────────────────
 app.use('/api', apiRouter);

@@ -1,10 +1,32 @@
 import { API_URL } from './config';
+import { Profile, Education, Experience, Skill, Project, Certificate } from './supabase';
 
+// TypeScript Interfaces for Type Safety
+interface LoginRequest {
+  email: string;
+  password: string;
+}
 
-async function fetcher(endpoint: string, options: RequestInit = {}) {
+interface LoginResponse {
+  token: string;
+}
+
+interface MediaAsset {
+  id: string;
+  [key: string]: any;
+}
+
+interface SocialLinks {
+  github?: string;
+  linkedin?: string;
+  email?: string;
+  whatsapp?: string;
+}
+
+async function fetcher<T = any>(endpoint: string, options: RequestInit = {}): Promise<T> {
   const token = typeof window !== 'undefined' ? localStorage.getItem('admin_token') : null;
   
-  const headers = {
+  const headers: HeadersInit = {
     'Content-Type': 'application/json',
     ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
     ...options.headers,
@@ -25,7 +47,8 @@ async function fetcher(endpoint: string, options: RequestInit = {}) {
 
 export const api = {
   // Auth
-  login: (credentials: any) => fetcher('/auth/login', { method: 'POST', body: JSON.stringify(credentials) }),
+  login: (credentials: LoginRequest) => 
+    fetcher<LoginResponse>('/auth/login', { method: 'POST', body: JSON.stringify(credentials) }),
   getMe: () => fetcher('/auth/me'),
 
   // Stats
@@ -37,50 +60,65 @@ export const api = {
   deleteMessage: (id: string) => fetcher(`/messages/${id}`, { method: 'DELETE' }),
 
   // Education & Experience
-  getEducation: () => fetcher('/education'),
-  createEducation: (data: any) => fetcher('/education', { method: 'POST', body: JSON.stringify(data) }),
-  updateEducation: (id: string, data: any) => fetcher(`/education/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  getEducation: () => fetcher<Education[]>('/education'),
+  createEducation: (data: Partial<Education>) => 
+    fetcher('/education', { method: 'POST', body: JSON.stringify(data) }),
+  updateEducation: (id: string, data: Partial<Education>) => 
+    fetcher(`/education/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
   deleteEducation: (id: string) => fetcher(`/education/${id}`, { method: 'DELETE' }),
   
-  getExperience: () => fetcher('/experience'),
-  createExperience: (data: any) => fetcher('/experience', { method: 'POST', body: JSON.stringify(data) }),
-  updateExperience: (id: string, data: any) => fetcher(`/experience/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  getExperience: () => fetcher<Experience[]>('/experience'),
+  createExperience: (data: Partial<Experience>) => 
+    fetcher('/experience', { method: 'POST', body: JSON.stringify(data) }),
+  updateExperience: (id: string, data: Partial<Experience>) => 
+    fetcher(`/experience/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
   deleteExperience: (id: string) => fetcher(`/experience/${id}`, { method: 'DELETE' }),
   
   // Profile
-  getProfile: () => fetcher('/profile'),
-  updateProfile: (data: any) => fetcher('/profile', { method: 'PUT', body: JSON.stringify(data) }),
+  getProfile: () => fetcher<Profile>('/profile'),
+  updateProfile: (data: Partial<Profile>) => 
+    fetcher('/profile', { method: 'PUT', body: JSON.stringify(data) }),
 
   // Certificates
-  getCertificates: () => fetcher('/certificates'),
-  createCertificate: (data: any) => fetcher('/certificates', { method: 'POST', body: JSON.stringify(data) }),
-  updateCertificate: (id: string, data: any) => fetcher(`/certificates/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  getCertificates: () => fetcher<Certificate[]>('/certificates'),
+  createCertificate: (data: Partial<Certificate>) => 
+    fetcher('/certificates', { method: 'POST', body: JSON.stringify(data) }),
+  updateCertificate: (id: string, data: Partial<Certificate>) => 
+    fetcher(`/certificates/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
   deleteCertificate: (id: string) => fetcher(`/certificates/${id}`, { method: 'DELETE' }),
   
   // Projects
-  getProjects: () => fetcher('/projects'),
-  createProject: (data: any) => fetcher('/projects', { method: 'POST', body: JSON.stringify(data) }),
-  updateProject: (id: string, data: any) => fetcher(`/projects/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  getProjects: () => fetcher<Project[]>('/projects'),
+  createProject: (data: Partial<Project>) => 
+    fetcher('/projects', { method: 'POST', body: JSON.stringify(data) }),
+  updateProject: (id: string, data: Partial<Project>) => 
+    fetcher(`/projects/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
   deleteProject: (id: string) => fetcher(`/projects/${id}`, { method: 'DELETE' }),
 
   // Skills
-  getSkills: () => fetcher('/skills'),
-  createSkill: (data: any) => fetcher('/skills', { method: 'POST', body: JSON.stringify(data) }),
-  updateSkill: (id: string, data: any) => fetcher(`/skills/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  getSkills: () => fetcher<Skill[]>('/skills'),
+  createSkill: (data: Partial<Skill>) => 
+    fetcher('/skills', { method: 'POST', body: JSON.stringify(data) }),
+  updateSkill: (id: string, data: Partial<Skill>) => 
+    fetcher(`/skills/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
   deleteSkill: (id: string) => fetcher(`/skills/${id}`, { method: 'DELETE' }),
 
   // Social
-  getSocialLinks: () => fetcher('/social-links'),
-  updateSocialLinks: (data: any) => fetcher('/social-links', { method: 'PUT', body: JSON.stringify(data) }),
+  getSocialLinks: () => fetcher<SocialLinks | null>('/social-links'),
+  updateSocialLinks: (data: SocialLinks) => 
+    fetcher('/social-links', { method: 'PUT', body: JSON.stringify(data) }),
 
   // Featured Project
-  getFeaturedProject: () => fetcher('/featured-project'),
-  updateFeaturedProject: (data: any) => fetcher('/featured-project', { method: 'PUT', body: JSON.stringify(data) }),
+  getFeaturedProject: () => fetcher<Project | null>('/featured-project'),
+  updateFeaturedProject: (data: Partial<Project>) => 
+    fetcher('/featured-project', { method: 'PUT', body: JSON.stringify(data) }),
 
   // Media Assets
-  getMediaAssets: () => fetcher('/media-assets'),
-  createMediaAsset: (data: any) => fetcher('/media-assets', { method: 'POST', body: JSON.stringify(data) }),
-  updateMediaAsset: (id: string, data: any) => fetcher(`/media-assets/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  getMediaAssets: () => fetcher<MediaAsset[]>('/media-assets'),
+  createMediaAsset: (data: Partial<MediaAsset>) => 
+    fetcher('/media-assets', { method: 'POST', body: JSON.stringify(data) }),
+  updateMediaAsset: (id: string, data: Partial<MediaAsset>) => 
+    fetcher(`/media-assets/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
   deleteMediaAsset: (id: string) => fetcher(`/media-assets/${id}`, { method: 'DELETE' }),
 
   // Upload
@@ -88,16 +126,20 @@ export const api = {
     const formData = new FormData();
     formData.append('image', file);
     
-    const token = localStorage.getItem('admin_token');
+    const token = typeof window !== 'undefined' ? localStorage.getItem('admin_token') : null;
     const response = await fetch(`${API_URL}/upload`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${token}`
+        ...(token ? { 'Authorization': `Bearer ${token}` } : {})
       },
       body: formData
     });
 
     if (!response.ok) throw new Error('Upload failed');
     return response.json();
-  }
+  },
+
+  // Contact form - NEW ENDPOINT
+  submitContactForm: (data: { name: string; email: string; subject: string; message: string }) =>
+    fetcher('/messages', { method: 'POST', body: JSON.stringify(data) }),
 };

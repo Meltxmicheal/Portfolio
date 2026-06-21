@@ -27,6 +27,7 @@ export type Profile = {
   clients_count: number
   contact_image_url: string
   status_badge: string
+  logo_url: string
 }
 
 export type Skill = {

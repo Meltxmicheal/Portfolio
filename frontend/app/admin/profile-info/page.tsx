@@ -581,7 +581,7 @@ export default function ProfileInfoPage() {
                       {edu.field} {edu.gpa && <span style={{ color: '#64748b', margin: '0 8px' }}>|</span>} {edu.gpa}
                     </p>
                     <p style={{ fontSize: 14, color: '#94a3b8', fontWeight: 500 }}>
-                      {edu.institution} <span style={{ color: '#475569', margin: '0 8px' }}>//</span> {edu.start_year} — {edu.end_year || 'Present'}
+                      {edu.institution} <span style={{ color: '#475569', margin: '0 8px' }}>{"//"}</span> {edu.start_year} — {edu.end_year || 'Present'}
                     </p>
                     {edu.description && (
                       <p style={{ fontSize: 12, color: '#64748b', marginTop: 10 }}>{edu.description}</p>

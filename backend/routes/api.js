@@ -8,6 +8,7 @@ const profileController = require('../controllers/profileController');
 const projectController = require('../controllers/projectController');
 const featuredProjectController = require('../controllers/featuredProjectController');
 const mediaAssetsController = require('../controllers/mediaAssetsController');
+const messageController = require('../controllers/messageController');
 const otherController = require('../controllers/otherController');
 const statsController = require('../controllers/statsController');
 const eduExpController = require('../controllers/eduExpController');
@@ -16,6 +17,12 @@ const certificatesController = require('../controllers/certificatesController');
 // Auth
 router.post('/auth/login', authController.login);
 router.get('/auth/me', auth, authController.getMe);
+
+// Contact Messages
+router.get('/messages', auth, messageController.getMessages);
+router.post('/messages', messageController.createMessage); // Public - no auth required for form submissions
+router.put('/messages/:id/read', auth, messageController.markAsRead);
+router.delete('/messages/:id', auth, messageController.deleteMessage);
 
 // Education & Experience
 router.get('/education', eduExpController.getEducation);

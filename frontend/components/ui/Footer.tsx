@@ -15,7 +15,7 @@ export default function Footer({ socials }: FooterProps) {
     <footer style={{ 
       padding: '80px 24px 40px', 
       borderTop: '1px solid var(--border)', 
-      background: 'rgba(255, 255, 255, 0.4)', 
+      background: 'rgba(10, 10, 25, 0.4)', 
       backdropFilter: 'blur(24px)',
       position: 'relative',
       overflow: 'hidden'

@@ -36,7 +36,7 @@ export default async function HomePage() {
   return (
     <>
       <Navbar profile={profile} />
-      <main>
+      <main id="main" style={{ position: 'relative', zIndex: 1 }}>
         <HeroSection profile={profile} />
         <AboutSection profile={profile} />
         <TheJourneySection experience={experience} skills={skills} education={education} />

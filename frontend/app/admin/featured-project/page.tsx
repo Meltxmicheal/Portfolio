@@ -19,7 +19,16 @@ export default function FeaturedProjectAdmin() {
   useEffect(() => {
     api.getFeaturedProject()
       .then(res => {
-        if (res) setData(res)
+        if (res) {
+          setData({
+            title: res.title || '',
+            description: res.description || '',
+            image: res.cover_image || '',
+            github_link: res.github_url || '',
+            live_link: res.live_url || '',
+            technologies: res.technologies || []
+          })
+        }
       })
       .finally(() => setLoading(false))
   }, [])
@@ -28,7 +37,14 @@ export default function FeaturedProjectAdmin() {
     e.preventDefault()
     setSaving(true)
     try {
-      await api.updateFeaturedProject(data)
+      await api.updateFeaturedProject({
+        title: data.title,
+        description: data.description,
+        cover_image: data.image,
+        github_url: data.github_link,
+        live_url: data.live_link,
+        technologies: data.technologies
+      })
       toast.success('Featured project updated')
     } catch (err: any) {
       toast.error(err.message)

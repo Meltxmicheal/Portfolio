@@ -16,7 +16,14 @@ export default function SocialsAdmin() {
   useEffect(() => {
     api.getSocialLinks()
       .then(res => {
-        if (res) setData(res)
+        if (res) {
+          setData({
+            github: res.github || '',
+            linkedin: res.linkedin || '',
+            email: res.email || '',
+            whatsapp: res.whatsapp || ''
+          })
+        }
       })
       .finally(() => setLoading(false))
   }, [])

@@ -38,7 +38,7 @@ const categoryBorder: Record<string, string> = {
   other: 'rgba(100,116,139,0.3)',
 }
 
-export default function AboutSection({ profile }: AboutProps) {
+export default function AboutSection({ profile, experience }: AboutProps) {
   const headRef = useReveal()
   const bioRef = useReveal()
 

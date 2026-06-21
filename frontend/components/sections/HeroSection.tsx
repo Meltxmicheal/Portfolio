@@ -1,10 +1,10 @@
 'use client'
 import { useEffect, useRef } from 'react'
-import { Profile } from '@/lib/supabase'
+import { Profile, Experience } from '@/lib/supabase'
 
-interface HeroProps { profile: Profile | null }
+interface HeroProps { profile: Profile | null, experience?: Experience[] }
 
-export default function HeroSection({ profile }: HeroProps) {
+export default function HeroSection({ profile, experience }: HeroProps) {
   const titleRef = useRef<HTMLHeadingElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -59,24 +59,53 @@ export default function HeroSection({ profile }: HeroProps) {
       {/* Main content */}
       <div style={{ maxWidth: 1200, width: '100%', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 2 }}>
         {/* Available for Internships badge — recruiter signal */}
-        <div style={{
-          display: 'inline-flex', alignItems: 'center', gap: 10,
-          marginBottom: 20, padding: '7px 18px', borderRadius: '100px',
-          background: 'rgba(34, 197, 94, 0.08)',
-          border: '1px solid rgba(34, 197, 94, 0.25)',
-          animation: 'fadeUp 0.7s 0.1s ease both',
-          opacity: 0,
-        }}>
-          <span style={{
-            width: 8, height: 8, borderRadius: '50%',
-            background: '#22c55e', display: 'inline-block',
-            boxShadow: '0 0 0 0 rgba(34,197,94,0.4)',
-            animation: 'greenPulse 2s ease-in-out infinite',
-          }} />
-          <span style={{ fontSize: 12, letterSpacing: '0.06em', color: '#86efac', fontWeight: 600 }}>
-            Available for Internships
-          </span>
-        </div>
+        {(() => {
+          const isAvailable = experience && experience.length > 0 ? experience[0].is_current : false;
+          const availabilityText = experience && experience.length > 0 ? experience[0].company : 'Available for Internships';
+          
+          if (!isAvailable) {
+            return (
+              <div style={{
+                display: 'inline-flex', alignItems: 'center', gap: 10,
+                marginBottom: 20, padding: '7px 18px', borderRadius: '100px',
+                background: 'rgba(255, 255, 255, 0.03)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                animation: 'fadeUp 0.7s 0.1s ease both',
+                opacity: 0,
+              }}>
+                <span style={{
+                  width: 8, height: 8, borderRadius: '50%',
+                  background: '#64748b', display: 'inline-block',
+                  boxShadow: 'none',
+                }} />
+                <span style={{ fontSize: 12, letterSpacing: '0.06em', color: '#94a3b8', fontWeight: 600 }}>
+                  Not Available
+                </span>
+              </div>
+            );
+          }
+
+          return (
+            <div style={{
+              display: 'inline-flex', alignItems: 'center', gap: 10,
+              marginBottom: 20, padding: '7px 18px', borderRadius: '100px',
+              background: 'rgba(34, 197, 94, 0.08)',
+              border: '1px solid rgba(34, 197, 94, 0.25)',
+              animation: 'fadeUp 0.7s 0.1s ease both',
+              opacity: 0,
+            }}>
+              <span style={{
+                width: 8, height: 8, borderRadius: '50%',
+                background: '#22c55e', display: 'inline-block',
+                boxShadow: '0 0 0 0 rgba(34,197,94,0.4)',
+                animation: 'greenPulse 2s ease-in-out infinite',
+              }} />
+              <span style={{ fontSize: 12, letterSpacing: '0.06em', color: '#86efac', fontWeight: 600 }}>
+                {availabilityText}
+              </span>
+            </div>
+          );
+        })()}
 
         {/* System status badge */}
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 32 }}>

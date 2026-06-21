@@ -37,8 +37,8 @@ export default async function HomePage() {
     <>
       <Navbar profile={profile} />
       <main id="main" style={{ position: 'relative', zIndex: 1 }}>
-        <HeroSection profile={profile} />
-        <AboutSection profile={profile} />
+        <HeroSection profile={profile} experience={experience} />
+        <AboutSection profile={profile} experience={experience} />
         <TheJourneySection experience={experience} skills={skills} education={education} />
         {featuredProject && <FeaturedProjectSection project={featuredProject} />}
         <ProjectsSection projects={projects} title={projectsTitle} />

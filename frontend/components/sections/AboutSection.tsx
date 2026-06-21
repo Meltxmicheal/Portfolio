@@ -6,6 +6,7 @@ import { Profile, Skill, Education, Experience } from '@/lib/supabase'
 
 interface AboutProps {
   profile: Profile | null
+  experience?: Experience[]
 }
 
 function useReveal() {
@@ -115,19 +116,21 @@ export default function AboutSection({ profile }: AboutProps) {
               </motion.div>
 
               {/* Floating card */}
-              <div className="glass-card absolute -bottom-6 -right-4 sm:-right-6 md:-right-8" style={{ 
-                padding: '16px 28px', borderRadius: 20, 
-                minWidth: 160, zIndex: 20, 
-                border: '1px solid rgba(255,255,255,0.1)', 
-                background: 'rgba(10, 1, 30, 0.75)', 
-                backdropFilter: 'blur(20px)',
-                boxShadow: '0 10px 40px rgba(0,0,0,0.3)' 
-              }}>
-                <div style={{ fontSize: 20, fontWeight: 700, color: '#c4b5fd', fontFamily: 'Clash Display, sans-serif', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                  {profile?.status_badge || 'Fresher'}
+              {(experience && experience.length > 0 || profile?.status_badge) && (
+                <div className="glass-card absolute -bottom-6 -right-4 sm:-right-6 md:-right-8" style={{ 
+                  padding: '16px 28px', borderRadius: 20, 
+                  minWidth: 160, zIndex: 20, 
+                  border: '1px solid rgba(255,255,255,0.1)', 
+                  background: 'rgba(10, 1, 30, 0.75)', 
+                  backdropFilter: 'blur(20px)',
+                  boxShadow: '0 10px 40px rgba(0,0,0,0.3)' 
+                }}>
+                  <div style={{ fontSize: 20, fontWeight: 700, color: '#c4b5fd', fontFamily: 'Clash Display, sans-serif', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                    {experience && experience.length > 0 ? experience[0].role : profile?.status_badge}
+                  </div>
+                  <div style={{ fontSize: 10, color: 'var(--text-muted)', marginTop: 4, textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 600 }}>Current Status</div>
                 </div>
-                <div style={{ fontSize: 10, color: 'var(--text-muted)', marginTop: 4, textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 600 }}>Current Status</div>
-              </div>
+              )}
             </div>
             
             {/* Animated Glow Trail Connection */}
@@ -154,8 +157,8 @@ export default function AboutSection({ profile }: AboutProps) {
             <div className="flex flex-col gap-4 mb-8 w-full max-w-md">
               {[
                 { icon: '📍', label: profile?.location || 'San Francisco, CA' },
-                { icon: '📧', label: 'michealjohnsonraj16@gmail.com' },
-                { icon: '💼', label: 'Open to Internships' },
+                { icon: '📧', label: profile?.email || 'michealjohnsonraj16@gmail.com' },
+                { icon: '💼', label: experience && experience.length > 0 ? experience[0].company : 'Available' },
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-4 text-slate-300 justify-center lg:justify-start">
                   <span className="text-lg">{item.icon}</span>

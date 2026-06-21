@@ -110,14 +110,7 @@ export function JourneySection({ experience, skills, education }: JourneyProps) 
     .map(([name, list]) => ({ name, skills: list }))
     .filter(g => g.skills.length > 0)
 
-  const displaySkills = skillGroups.length > 0 ? skillGroups : [
-    { name: 'Frontend', skills: ['React.js', 'TypeScript', 'JavaScript', 'HTML5', 'CSS3'] },
-    { name: 'Backend', skills: ['Node.js', 'Express.js'] },
-    { name: 'AI/ML', skills: ['Python', 'AI', 'Machine Learning'] },
-    { name: 'Database', skills: ['SQL', 'PostgreSQL', 'Supabase'] },
-    { name: 'Tools', skills: ['GitHub', 'Figma', 'VS Code'] },
-    { name: 'Extra Skills', skills: ['MS Word', 'Editing', 'AI Tools'] }
-  ]
+  const displaySkills = skillGroups
 
   return (
     <section id="journey" className="py-20 md:py-32 px-6 md:px-12 relative overflow-hidden">

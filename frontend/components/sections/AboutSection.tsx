@@ -95,7 +95,7 @@ export default function AboutSection({ profile, experience }: AboutProps) {
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(124,58,237,0.1), rgba(59,130,246,0.05))', zIndex: 1, mixBlendMode: 'multiply' }} />
                 {profile?.avatar_url ? (
                   <Image 
-                    src={profile.avatar_url.includes('/upload/') ? profile.avatar_url.replace('/upload/', '/upload/f_auto,q_auto,w_800/') : profile.avatar_url} 
+                    src={profile.avatar_url} 
                     alt={`Portrait of ${profile.name}`} 
                     fill
                     sizes="(max-width: 768px) 80vw, 400px"
@@ -103,7 +103,6 @@ export default function AboutSection({ profile, experience }: AboutProps) {
                     style={{ objectFit: 'cover', objectPosition: 'center 15%' }} 
                     priority
                     loading="eager"
-                    unoptimized={true}
                   />
                 ) : (
                   <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, #f3f0ff, #e0e7ff)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

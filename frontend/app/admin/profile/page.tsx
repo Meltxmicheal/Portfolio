@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState, useCallback } from 'react'
-import { api } from '@/lib/api'
+import { api, revalidateFrontend } from '@/lib/api'
 import { useDropzone } from 'react-dropzone'
 import toast from 'react-hot-toast'
 import Image from 'next/image'
@@ -21,7 +21,9 @@ export default function AdminProfilePage() {
     setSaving(true)
     try {
       await api.updateProfile(profile)
-      toast.success('Profile saved!')
+      // Immediately purge ISR cache so the new avatar/data is live on frontend
+      await revalidateFrontend()
+      toast.success('Profile saved! Frontend updated.')
     } catch (error: any) {
       toast.error('Save failed: ' + error.message)
     } finally {
@@ -38,7 +40,9 @@ export default function AdminProfilePage() {
       const updated = { ...profile, avatar_url: url };
       setProfile(updated)
       await api.updateProfile(updated)
-      toast.success('Avatar updated!')
+      // Purge ISR cache so the new avatar is immediately visible on the frontend
+      await revalidateFrontend()
+      toast.success('Avatar updated! Live on frontend.')
     } catch (e: any) { toast.error('Upload failed: ' + e.message) }
     setUploadingAvatar(false)
   }, [profile])

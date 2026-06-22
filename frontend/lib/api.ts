@@ -143,3 +143,24 @@ export const api = {
   submitContactForm: (data: { name: string; email: string; subject: string; message: string }) =>
     fetcher('/messages', { method: 'POST', body: JSON.stringify(data) }),
 };
+
+/**
+ * Triggers on-demand ISR revalidation for the frontend homepage.
+ * Call this after any admin update (profile, avatar, projects, etc.)
+ * so visitors see the new data immediately instead of waiting up to 60s.
+ */
+export async function revalidateFrontend(): Promise<void> {
+  try {
+    const secret = process.env.NEXT_PUBLIC_REVALIDATE_SECRET || ''
+    await fetch('/api/revalidate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(secret ? { 'x-revalidate-secret': secret } : {}),
+      },
+    })
+  } catch {
+    // Non-fatal — page will self-heal after the revalidate window expires
+    console.warn('[revalidateFrontend] Could not revalidate cache — will expire naturally')
+  }
+}

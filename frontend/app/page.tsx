@@ -9,7 +9,7 @@ import TheJourneySection from '@/components/sections/TheJourneySection'
 import ContactSection from '@/components/sections/ContactSection'
 import ThankYouSection from '@/components/sections/ThankYouSection'
 
-export const revalidate = 60 // ISR: re-fetch every 60 seconds
+export const revalidate = 30 // ISR safety net: re-fetch every 30s (primary: on-demand via /api/revalidate)
 
 // Helper: safely fetch — returns null on any error (e.g. backend not running at build time)
 async function safe<T>(fn: () => Promise<T>, fallback: T): Promise<T> {

@@ -14,7 +14,8 @@ const updateProfile = async (req, res) => {
     id, name, title, tagline, about, email, phone, location, 
     avatar_url, logo_url, contact_image_url, resume_url,
     status_badge, github_url, linkedin_url, twitter_url, whatsapp, website_url,
-    years_experience, projects_count, clients_count 
+    years_experience, projects_count, clients_count,
+    opportunity_status, career_stage, availability, experience_tags
   } = req.body;
 
   try {
@@ -25,8 +26,10 @@ const updateProfile = async (req, res) => {
         contact_image_url = $10, resume_url = $11, status_badge = $12, 
         github_url = $13, linkedin_url = $14, twitter_url = $15, 
         whatsapp = $16, website_url = $17, years_experience = $18, 
-        projects_count = $19, clients_count = $20, updated_at = NOW()
-       WHERE id = $21
+        projects_count = $19, clients_count = $20, 
+        opportunity_status = $21, career_stage = $22, availability = $23, 
+        experience_tags = $24, updated_at = NOW()
+       WHERE id = $25
        RETURNING *`,
       [
         name, title, tagline, about, email, 
@@ -34,7 +37,9 @@ const updateProfile = async (req, res) => {
         contact_image_url, resume_url, status_badge, 
         github_url, linkedin_url, twitter_url, 
         whatsapp, website_url, years_experience, 
-        projects_count, clients_count, id
+        projects_count, clients_count,
+        opportunity_status, career_stage, availability, experience_tags,
+        id
       ]
     );
     res.json(rows[0]);

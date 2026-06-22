@@ -26,9 +26,16 @@ CREATE TABLE IF NOT EXISTS profile (
   years_experience INTEGER DEFAULT 0,
   projects_count INTEGER DEFAULT 0,
   clients_count INTEGER DEFAULT 0,
+  opportunity_status TEXT,
+  career_stage TEXT,
+  availability TEXT,
+  experience_tags TEXT[],
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
+
+-- Enable Realtime for profile table
+ALTER PUBLICATION supabase_realtime ADD TABLE profile;
 
 -- Insert default profile
 INSERT INTO profile (id, name, title, tagline, about)

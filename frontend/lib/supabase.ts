@@ -28,6 +28,10 @@ export type Profile = {
   contact_image_url: string
   status_badge: string
   logo_url: string
+  opportunity_status: string
+  career_stage: string
+  availability: string
+  experience_tags: string[]
 }
 
 export type Skill = {

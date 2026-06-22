@@ -11,6 +11,23 @@ export default function AdminProfilePage() {
   const [profile, setProfile] = useState<Profile | null>(null)
   const [saving, setSaving] = useState(false)
   const [uploadingAvatar, setUploadingAvatar] = useState(false)
+  const [newTag, setNewTag] = useState('')
+
+  const handleAddTag = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!newTag.trim() || !profile) return
+    if (profile.experience_tags?.includes(newTag.trim())) {
+      toast.error('Tag already exists')
+      return
+    }
+    setProfile({ ...profile, experience_tags: [...(profile.experience_tags || []), newTag.trim()] })
+    setNewTag('')
+  }
+
+  const handleRemoveTag = (tag: string) => {
+    if (!profile) return
+    setProfile({ ...profile, experience_tags: profile.experience_tags.filter(t => t !== tag) })
+  }
 
   useEffect(() => { 
     api.getProfile().then(setProfile).catch(err => toast.error('Failed to load profile'))
@@ -212,10 +229,68 @@ export default function AdminProfilePage() {
 
         {/* Fields */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+          <div className="glass-card" style={{ padding: 40, borderRadius: 24, display: 'grid', gridTemplateColumns: '1fr', gap: 24, background: 'rgba(10, 1, 30, 0.4)', border: '1px solid rgba(255,255,255,0.05)' }}>
+            <h2 style={{ fontSize: 13, fontWeight: 800, color: '#64748b', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Professional Identity (LinkedIn Style)</h2>
+            
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
+              <div>
+                <label style={{ fontSize: 11, color: '#64748b', letterSpacing: '0.15em', textTransform: 'uppercase', display: 'block', marginBottom: 10, fontWeight: 700 }}>Professional Headline</label>
+                <input className="input-field" value={profile.title || ''} onChange={e => setProfile({ ...profile, title: e.target.value })} placeholder="e.g. AI/ML Engineer | Software Developer" />
+              </div>
+
+              <div>
+                <label style={{ fontSize: 11, color: '#64748b', letterSpacing: '0.15em', textTransform: 'uppercase', display: 'block', marginBottom: 10, fontWeight: 700 }}>Opportunity Status</label>
+                <select className="input-field" value={profile.opportunity_status || 'Open to Internships'} onChange={e => setProfile({ ...profile, opportunity_status: e.target.value })} style={{ appearance: 'none' }}>
+                  <option value="Open to Internships">Open to Internships</option>
+                  <option value="Open to Full-Time Roles">Open to Full-Time Roles</option>
+                  <option value="Open to Freelance Work">Open to Freelance Work</option>
+                  <option value="Open to Collaboration">Open to Collaboration</option>
+                  <option value="Currently Employed">Currently Employed</option>
+                  <option value="Not Available">Not Available</option>
+                </select>
+              </div>
+
+              <div>
+                <label style={{ fontSize: 11, color: '#64748b', letterSpacing: '0.15em', textTransform: 'uppercase', display: 'block', marginBottom: 10, fontWeight: 700 }}>Career Stage</label>
+                <select className="input-field" value={profile.career_stage || 'Student'} onChange={e => setProfile({ ...profile, career_stage: e.target.value })} style={{ appearance: 'none' }}>
+                  <option value="Student">Student</option>
+                  <option value="Fresher">Fresher</option>
+                  <option value="Intern">Intern</option>
+                  <option value="Graduate">Graduate</option>
+                  <option value="Junior Developer">Junior Developer</option>
+                </select>
+              </div>
+
+              <div>
+                <label style={{ fontSize: 11, color: '#64748b', letterSpacing: '0.15em', textTransform: 'uppercase', display: 'block', marginBottom: 10, fontWeight: 700 }}>Availability</label>
+                <select className="input-field" value={profile.availability || 'Actively Looking'} onChange={e => setProfile({ ...profile, availability: e.target.value })} style={{ appearance: 'none' }}>
+                  <option value="Actively Looking">Actively Looking</option>
+                  <option value="Open to Opportunities">Open to Opportunities</option>
+                  <option value="Not Looking">Not Looking</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label style={{ fontSize: 11, color: '#64748b', letterSpacing: '0.15em', textTransform: 'uppercase', display: 'block', marginBottom: 10, fontWeight: 700 }}>Experience Tags</label>
+              <div style={{ display: 'flex', gap: 12, marginBottom: 16 }}>
+                <input className="input-field" value={newTag} onChange={e => setNewTag(e.target.value)} placeholder="e.g. IBM Trainer" />
+                <button type="button" onClick={handleAddTag} className="btn-primary" style={{ padding: '0 24px', borderRadius: 14, fontSize: 12, fontWeight: 800 }}>ADD</button>
+              </div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+                {(profile.experience_tags || []).map(tag => (
+                  <div key={tag} className="glass-card" style={{ padding: '8px 14px', borderRadius: 12, display: 'flex', alignItems: 'center', gap: 10, background: 'rgba(124, 58, 237, 0.1)', border: '1px solid rgba(124, 58, 237, 0.2)' }}>
+                    <span style={{ fontSize: 12, color: 'var(--violet-glow)', fontWeight: 800 }}>{tag}</span>
+                    <button type="button" onClick={() => handleRemoveTag(tag)} style={{ color: '#ef4444', background: 'none', border: 'none', fontWeight: 800, fontSize: 14, cursor: 'pointer' }}>×</button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
           <div className="glass-card" style={{ padding: 40, borderRadius: 24, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, background: 'rgba(10, 1, 30, 0.4)', border: '1px solid rgba(255,255,255,0.05)' }}>
             <h2 style={{ fontSize: 13, fontWeight: 800, color: '#64748b', marginBottom: 8, gridColumn: '1/-1', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Core Configuration</h2>
             {field('Biological Label', 'name')}
-            {field('System Role', 'title')}
             {field('Neural Tagline', 'tagline')}
             {field('Status Indicator', 'status_badge')}
             {field('Physical Location', 'location')}

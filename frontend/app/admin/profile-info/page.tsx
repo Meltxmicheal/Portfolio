@@ -31,15 +31,6 @@ export default function ProfileInfoPage() {
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState<'skills' | 'experience' | 'education'>('experience')
 
-  // EXPERIENCE STATES (Unified Fresher Profile)
-  const [expRecord, setExpRecord] = useState<any>(null)
-  const [expTitle, setExpTitle] = useState('Fresher / AI-ML Student')
-  const [expDescription, setExpDescription] = useState('')
-  const [expAvailability, setExpAvailability] = useState('Available for Opportunities')
-  const [expIsAvailable, setExpIsAvailable] = useState(true)
-  const [expTags, setExpTags] = useState<string[]>(['Open to Internships', 'Open to Freelance', 'Open to Collaborations'])
-  const [newExpTag, setNewExpTag] = useState('')
-
   // SKILLS STATES
   const [newSkill, setNewSkill] = useState({ name: '', category: 'Frontend', is_featured: false })
   const [addingSkill, setAddingSkill] = useState(false)
@@ -63,19 +54,6 @@ export default function ProfileInfoPage() {
       setSkills(s || [])
       setExperience(exp || [])
       setEducation(edu || [])
-
-      // Load Experience Fresher Settings
-      if (exp && exp.length > 0) {
-        const record = exp[0]
-        setExpRecord(record)
-        setExpTitle(record.role || 'Fresher / AI-ML Student')
-        setExpDescription(record.description || '')
-        setExpAvailability(record.company || 'Available for Opportunities')
-        setExpIsAvailable(!!record.is_current)
-        setExpTags(record.technologies || ['Open to Internships', 'Open to Freelance', 'Open to Collaborations'])
-      } else {
-        setExpDescription('Passionate AI/ML and Full Stack developer focused on building modern web applications, intelligent systems, and real-world projects while continuously learning new technologies.')
-      }
     } catch (err) {
       toast.error('Failed to load neural identity sectors')
     } finally {
@@ -85,55 +63,6 @@ export default function ProfileInfoPage() {
 
   useEffect(() => { loadAll() }, [])
 
-  // ================= EXPERIENCE LOGIC =================
-  const handleSaveExperience = async () => {
-    if (!expTitle.trim() || !expDescription.trim()) {
-      toast.error('Title and Summary Description required')
-      return
-    }
-    const toastId = toast.loading('Syncing Fresher matrix...')
-    try {
-      const payload = {
-        role: expTitle.trim(),
-        description: expDescription.trim(),
-        company: expAvailability.trim(),
-        technologies: expTags,
-        is_current: expIsAvailable,
-        start_date: new Date().toISOString(),
-        end_date: null,
-        company_url: '',
-        logo_url: '',
-        sort_order: 0
-      }
-
-      if (expRecord?.id) {
-        const res = await api.updateExperience(expRecord.id, payload)
-        setExpRecord(res)
-      } else {
-        const res = await api.createExperience(payload)
-        setExpRecord(res)
-      }
-      toast.success('Fresher profile synchronized', { id: toastId })
-      loadAll()
-    } catch (err) {
-      toast.error('Failed to synchronize Fresher Profile', { id: toastId })
-    }
-  }
-
-  const handleAddExpTag = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!newExpTag.trim()) return
-    if (expTags.includes(newExpTag.trim())) {
-      toast.error('Tag already exists')
-      return
-    }
-    setExpTags([...expTags, newExpTag.trim()])
-    setNewExpTag('')
-  }
-
-  const handleRemoveExpTag = (tag: string) => {
-    setExpTags(expTags.filter(t => t !== tag))
-  }
 
   // ================= SKILLS LOGIC =================
   const handleAddSkill = async () => {
@@ -311,75 +240,9 @@ export default function ProfileInfoPage() {
       <div style={{ minHeight: 400 }}>
         {/* ================= EXPERIENCE TAB ================= */}
         {activeTab === 'experience' && (
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32 }}>
-            <div className="glass-card" style={{ padding: 40, borderRadius: 24, background: 'rgba(10, 1, 30, 0.4)', border: '1px solid rgba(255, 255, 255, 0.05)', boxShadow: '0 20px 60px rgba(0,0,0,0.4)', alignSelf: 'start' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
-                <h2 style={{ fontSize: 14, fontWeight: 800, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.15em' }}>Fresher Profile Settings</h2>
-                <button onClick={handleSaveExperience} className="btn-primary" style={{ fontSize: 11, padding: '10px 24px', borderRadius: 12, fontWeight: 800 }}>
-                  SAVE IDENTITY
-                </button>
-              </div>
-
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-                {/* Title */}
-                <div>
-                  <label style={{ fontSize: 11, color: '#64748b', textTransform: 'uppercase', display: 'block', marginBottom: 12, fontWeight: 700, letterSpacing: '0.1em' }}>Fresher / AI-ML Title</label>
-                  <input className="input-field" value={expTitle} onChange={e => setExpTitle(e.target.value)} placeholder="e.g. Fresher / AI-ML Student" />
-                </div>
-
-                {/* Availability State */}
-                <div>
-                  <label style={{ fontSize: 11, color: '#64748b', textTransform: 'uppercase', display: 'block', marginBottom: 12, fontWeight: 700, letterSpacing: '0.1em' }}>Hiring Status Badge</label>
-                  <input className="input-field" value={expAvailability} onChange={e => setExpAvailability(e.target.value)} placeholder="e.g. Available for Opportunities" />
-                </div>
-
-                {/* Checkbox */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '16px', borderRadius: 16, background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)' }}>
-                  <input type="checkbox" id="expIsAvailable" checked={expIsAvailable} onChange={e => setExpIsAvailable(e.target.checked)} style={{ width: 18, height: 18, accentColor: 'var(--violet-glow)', cursor: 'pointer' }} />
-                  <label htmlFor="expIsAvailable" style={{ fontSize: 12, color: '#94a3b8', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em', cursor: 'pointer' }}>Active for Hires (Green Glow Indicator)</label>
-                </div>
-
-                {/* Description */}
-                <div>
-                  <label style={{ fontSize: 11, color: '#64748b', textTransform: 'uppercase', display: 'block', marginBottom: 12, fontWeight: 700, letterSpacing: '0.1em' }}>Mission Log Description</label>
-                  <textarea className="input-field" rows={5} value={expDescription} onChange={e => setExpDescription(e.target.value)} placeholder="Detail your focal capabilities..." style={{ resize: 'vertical' }} />
-                </div>
-              </div>
-            </div>
-
-            {/* Tags Config + Preview */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-              <div className="glass-card" style={{ padding: 40, borderRadius: 24, background: 'rgba(10, 1, 30, 0.4)', border: '1px solid rgba(255, 255, 255, 0.05)' }}>
-                <h2 style={{ fontSize: 14, fontWeight: 800, color: '#64748b', marginBottom: 24, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Recruiter Tags</h2>
-                <form onSubmit={handleAddExpTag} style={{ display: 'flex', gap: 12, marginBottom: 24 }}>
-                  <input className="input-field" value={newExpTag} onChange={e => setNewExpTag(e.target.value)} placeholder="e.g. Open to Internships" style={{ flex: 1 }} />
-                  <button type="submit" className="btn-primary" style={{ padding: '0 24px', borderRadius: 14, fontSize: 12, fontWeight: 800 }}>ADD</button>
-                </form>
-
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
-                  {expTags.map(tag => (
-                    <div key={tag} className="glass-card" style={{ padding: '8px 14px', borderRadius: 12, display: 'flex', alignItems: 'center', gap: 10, background: 'rgba(124, 58, 237, 0.1)', border: '1px solid rgba(124, 58, 237, 0.2)' }}>
-                      <span style={{ fontSize: 12, color: 'var(--violet-glow)', fontWeight: 800 }}>{tag}</span>
-                      <button type="button" onClick={() => handleRemoveExpTag(tag)} style={{ color: '#ef4444', background: 'none', border: 'none', fontWeight: 800, fontSize: 14, cursor: 'pointer' }}>×</button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Recruiter Preview */}
-              <div className="glass-card" style={{ padding: 40, borderRadius: 24, background: 'rgba(10, 1, 30, 0.2)', border: '1px solid rgba(255, 255, 255, 0.03)' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-                  <span style={{ width: 8, height: 8, borderRadius: '50%', background: expIsAvailable ? '#10b981' : '#ef4444', boxShadow: expIsAvailable ? '0 0 8px #10b981' : '0 0 8px #ef4444' }} />
-                  <span style={{ fontSize: 11, color: expIsAvailable ? '#10b981' : '#ef4444', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{expAvailability}</span>
-                </div>
-                <h3 style={{ fontSize: 18, fontWeight: 700, color: '#f8fafc', marginBottom: 12 }}>{expTitle}</h3>
-                <p style={{ fontSize: 13, color: '#94a3b8', lineHeight: 1.6, marginBottom: 20 }}>{expDescription}</p>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-                  {expTags.map(tag => (
-                    <span key={tag} style={{ fontSize: 10, color: '#f8fafc', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)', padding: '4px 10px', borderRadius: 20, fontWeight: 700 }}>{tag}</span>
-                  ))}
-                </div>
-              </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 32 }}>
+            <div className="glass-card" style={{ padding: 40, borderRadius: 24, background: 'rgba(10, 1, 30, 0.4)', border: '1px solid rgba(255, 255, 255, 0.05)', textAlign: 'center' }}>
+              <p style={{ color: '#94a3b8', fontSize: 14 }}>Experience details have been moved to the individual project and experience management sections. Professional Identity (Fresher/Title setup) is now in the Core Identity tab.</p>
             </div>
           </div>
         )}

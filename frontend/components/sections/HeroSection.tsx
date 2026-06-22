@@ -1,12 +1,29 @@
 'use client'
-import { useEffect, useRef } from 'react'
-import { Profile, Experience } from '@/lib/supabase'
+import { useEffect, useRef, useState } from 'react'
+import { Profile, Experience, supabase } from '@/lib/supabase'
 
 interface HeroProps { profile: Profile | null, experience?: Experience[] }
 
-export default function HeroSection({ profile, experience }: HeroProps) {
+export default function HeroSection({ profile: initialProfile, experience }: HeroProps) {
+  const [profile, setProfile] = useState(initialProfile)
   const titleRef = useRef<HTMLHeadingElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => { setProfile(initialProfile) }, [initialProfile])
+
+  useEffect(() => {
+    const channel = supabase.channel('schema-db-changes')
+      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'profile' }, (payload) => {
+        if (profile && payload.new.id === profile.id) {
+          setProfile(payload.new as Profile)
+        } else if (!profile) {
+          setProfile(payload.new as Profile)
+        }
+      })
+      .subscribe()
+      
+    return () => { supabase.removeChannel(channel) }
+  }, [profile?.id])
 
   const name = profile?.name || 'Alex Chen'
   const title = profile?.title || 'Full Stack Developer & Designer'
@@ -58,10 +75,10 @@ export default function HeroSection({ profile, experience }: HeroProps) {
 
       {/* Main content */}
       <div style={{ maxWidth: 1200, width: '100%', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 2 }}>
-        {/* Available for Internships badge — recruiter signal */}
+        {/* Availability Badge */}
         {(() => {
-          const isAvailable = experience && experience.length > 0 ? experience[0].is_current : false;
-          const availabilityText = experience && experience.length > 0 ? experience[0].company : 'Available for Internships';
+          const isAvailable = profile?.availability !== 'Not Available' && profile?.availability !== 'Not Looking';
+          const availabilityText = profile?.availability || 'Actively Looking';
           
           if (!isAvailable) {
             return (
@@ -79,7 +96,7 @@ export default function HeroSection({ profile, experience }: HeroProps) {
                   boxShadow: 'none',
                 }} />
                 <span style={{ fontSize: 12, letterSpacing: '0.06em', color: '#94a3b8', fontWeight: 600 }}>
-                  Not Available
+                  {availabilityText}
                 </span>
               </div>
             );
@@ -107,13 +124,13 @@ export default function HeroSection({ profile, experience }: HeroProps) {
           );
         })()}
 
-        {/* System status badge */}
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 32 }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 12, animation: 'fadeUp 0.8s 0.2s ease both', background: 'rgba(124, 58, 237, 0.08)', padding: '8px 20px', borderRadius: '100px', border: '1px solid rgba(124, 58, 237, 0.2)', opacity: 0 }}>
-            <div className="pulse-dot" style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--violet-glow)', boxShadow: '0 0 12px var(--violet-glow)' }} />
-            <span style={{ fontSize: 11, letterSpacing: '0.4em', textTransform: 'uppercase', color: 'var(--text-accent)', fontFamily: 'JetBrains Mono, monospace', fontWeight: 700 }}>
-              System Online
-            </span>
+        {/* Opportunity Status & Career Stage */}
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 32, gap: 12, flexWrap: 'wrap', animation: 'fadeUp 0.8s 0.2s ease both', opacity: 0 }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(59, 130, 246, 0.1)', padding: '6px 16px', borderRadius: '100px', border: '1px solid rgba(59, 130, 246, 0.2)' }}>
+            <span style={{ fontSize: 12, color: '#60a5fa', fontWeight: 600, letterSpacing: '0.05em' }}>{profile?.career_stage || 'Professional'}</span>
+          </div>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(168, 85, 247, 0.1)', padding: '6px 16px', borderRadius: '100px', border: '1px solid rgba(168, 85, 247, 0.2)' }}>
+            <span style={{ fontSize: 12, color: '#c084fc', fontWeight: 600, letterSpacing: '0.05em' }}>{profile?.opportunity_status || 'Open to Opportunities'}</span>
           </div>
         </div>
 
@@ -137,10 +154,19 @@ export default function HeroSection({ profile, experience }: HeroProps) {
         </h1>
 
         {/* Title line */}
-        <div style={{ marginBottom: 40, opacity: 0, animation: 'fadeUp 0.8s 0.6s ease forwards' }}>
+        <div style={{ marginBottom: 24, opacity: 0, animation: 'fadeUp 0.8s 0.6s ease forwards' }}>
           <span className="text-shimmer font-display" style={{ fontSize: 'clamp(18px, 3.5vw, 28px)', fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#94a3b8' }}>
             {title}
           </span>
+        </div>
+
+        {/* Experience Tags */}
+        <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 8, maxWidth: 600, margin: '0 auto 40px', opacity: 0, animation: 'fadeUp 0.8s 0.7s ease forwards' }}>
+          {(profile?.experience_tags || []).map(tag => (
+            <span key={tag} style={{ fontSize: 11, color: '#e2e8f0', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', padding: '6px 14px', borderRadius: 20, fontWeight: 600, letterSpacing: '0.05em' }}>
+              {tag}
+            </span>
+          ))}
         </div>
 
         {/* Tagline */}

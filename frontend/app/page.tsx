@@ -47,7 +47,7 @@ export default async function HomePage() {
         <ContactSection profile={profile} />
         <ThankYouSection />
       </main>
-      <Footer socials={socialLinks} />
+      <Footer />
     </>
   )
 }

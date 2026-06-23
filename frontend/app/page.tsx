@@ -41,7 +41,7 @@ export default async function HomePage() {
         <HeroSection profile={profile} experience={experience} />
         <AboutSection profile={profile} experience={experience} />
         <TechStackSection />
-        <TheJourneySection experience={experience} skills={skills} education={education} />
+        <TheJourneySection />
         {featuredProject && <FeaturedProjectSection project={featuredProject} />}
         <ProjectsSection projects={projects} title={projectsTitle} />
         <ContactSection profile={profile} />

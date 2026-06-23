@@ -75,73 +75,26 @@ export default function ContactSection({ profile }: ContactProps) {
     <section id="contact" className="py-20 md:py-32 px-6 md:px-12 relative overflow-hidden" role="region" aria-label="Contact section">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div ref={headRef} className="reveal text-center mb-16 md:mb-24">
+        <div ref={headRef} className="reveal text-center mb-12 md:mb-16">
           <p className="text-xs uppercase tracking-[0.25em] text-slate-500 font-mono mb-4">
             Contact
           </p>
           <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight mb-6">
-            Let&apos;s Build Something
+            Get in Touch
           </h2>
+          <div className="flex justify-center mb-6">
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 12px', borderRadius: '100px', background: 'rgba(124,58,237,0.1)', border: '1px solid rgba(124,58,237,0.2)', fontSize: '13px', color: '#c4b5fd', fontWeight: 600 }}>
+              <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#7B61FF', boxShadow: '0 0 10px #7B61FF' }}></span>
+              Available for Internships
+            </div>
+          </div>
           <p className="text-base sm:text-lg text-slate-400 max-w-xl mx-auto leading-relaxed">
             Have a project in mind or just want to connect? My inbox is always open.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-          {/* Left: Social links & Image */}
-          <div ref={headRef} className="reveal lg:col-span-5 w-full">
-            <h3 className="font-display text-2xl font-bold text-white mb-3">Find Me Online</h3>
-            <div className="section-divider mb-8 w-16 h-1 bg-violet-500 rounded-full" />
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-              {socials.map(s => (
-                <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={`Connect on ${s.label}`} style={{
-                  display: 'flex', alignItems: 'center', gap: 14,
-                  padding: '16px 20px', borderRadius: 16, textDecoration: 'none',
-                  background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.08)',
-                  color: '#94a3b8', transition: 'all 0.4s cubic-bezier(0.23, 1, 0.32, 1)',
-                  position: 'relative', overflow: 'hidden',
-                }}
-                  onMouseEnter={e => { 
-                    (e.currentTarget as HTMLElement).style.background = s.color;
-                    (e.currentTarget as HTMLElement).style.borderColor = s.color;
-                    (e.currentTarget as HTMLElement).style.boxShadow = `0 10px 30px ${s.glow}`;
-                    (e.currentTarget as HTMLElement).style.color = '#FFFFFF';
-                    (e.currentTarget as HTMLElement).style.transform = 'translateY(-4px)';
-                  }}
-                  onMouseLeave={e => { 
-                    (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.03)';
-                    (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255, 255, 255, 0.08)';
-                    (e.currentTarget as HTMLElement).style.boxShadow = 'none';
-                    (e.currentTarget as HTMLElement).style.color = '#94a3b8';
-                    (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
-                  }}>
-                  <span style={{ flexShrink: 0, zIndex: 1 }}>{s.icon}</span>
-                  <div style={{ zIndex: 1 }}>
-                    <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.02em' }}>{s.label}</div>
-                  </div>
-                </a>
-              ))}
-            </div>
-
-            {/* Contact Image */}
-            <div className="relative w-full aspectRatio-[16/9] rounded-3xl overflow-hidden border border-white/10 shadow-2xl shadow-black/60">
-              {/* Floating glow background */}
-              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(124,58,237,0.15) 0%, rgba(59,130,246,0.1) 100%)', mixBlendMode: 'screen', zIndex: 1 }} />
-              
-              {/* @ts-ignore */}
-              {profile?.contact_image_url ? (
-                <img src={(profile as any).contact_image_url} alt="Contact illustration" style={{ width: '100%', height: '100%', objectFit: 'cover', animation: 'float 6s ease-in-out infinite' }} />
-              ) : (
-                <div className="w-full h-48 sm:h-64 bg-slate-900/40 flex items-center justify-center border border-white/5 rounded-3xl">
-                  <span className="color-[#64748b] text-sm font-semibold tracking-wide uppercase">Micheal Johnson Raj P</span>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Right: Contact form */}
-          <div ref={formRef} className="reveal lg:col-span-7 w-full">
+        {/* Center container */}
+        <div ref={formRef} className="reveal max-w-2xl mx-auto w-full">
             <div className="glass-card p-6 sm:p-10 md:p-12 rounded-[24px] bg-slate-950/40 border border-white/5 shadow-xl relative overflow-hidden">
               <h3 className="font-display text-2xl font-bold text-white mb-8 tracking-tight">Send a Message</h3>
               <form onSubmit={handleSubmit} className="flex flex-col gap-6" noValidate>
@@ -219,8 +172,15 @@ export default function ContactSection({ profile }: ContactProps) {
                 </button>
               </form>
             </div>
+            
+            <div className="mt-12 flex justify-center gap-6">
+              {socials.map(s => (
+                <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={`Connect on ${s.label}`} className="text-slate-400 hover:text-white transition-colors">
+                  <span style={{ width: 24, height: 24, display: 'block' }}>{s.icon}</span>
+                </a>
+              ))}
+            </div>
           </div>
-        </div>
       </div>
     </section>
   )

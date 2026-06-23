@@ -71,19 +71,17 @@ export default function AboutSection({ profile, experience }: AboutProps) {
         </div>
 
         {/* Bio + photo */}
-        <div ref={bioRef} className="reveal grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center mb-16 md:mb-24 relative">
+        <div ref={bioRef} className="reveal grid grid-cols-1 md:grid-cols-[280px_1fr] gap-12 md:gap-[48px] items-center mb-16 md:mb-24 relative">
           {/* Photo */}
-          <div className="lg:col-span-5 flex justify-center w-full relative mb-12 lg:mb-0" style={{ perspective: 1000, zIndex: 10 }}>
-            <div className="w-full max-w-[340px] sm:max-w-[400px] relative" style={{ animation: 'float 6s ease-in-out infinite' }}>
+          <div className="flex justify-center w-full relative mb-12 md:mb-0" style={{ perspective: 1000, zIndex: 10 }}>
+            <div className="w-full max-w-[200px] md:max-w-full mx-auto relative" style={{ animation: 'float 6s ease-in-out infinite' }}>
               <motion.div 
                 style={{ 
                   position: 'relative', 
                   width: '100%', 
-                  aspectRatio: '3/4.4', 
-                  borderRadius: 24, 
+                  aspectRatio: '1/1', 
+                  borderRadius: 12, 
                   overflow: 'hidden',
-                  boxShadow: '0 20px 50px rgba(124,58,237,0.15)',
-                  border: '1px solid rgba(124,58,237,0.1)',
                   // Sharp viewport focus, blur ONLY on exit
                   y: transformY,
                   x: transformX,
@@ -98,9 +96,9 @@ export default function AboutSection({ profile, experience }: AboutProps) {
                     src={profile.avatar_url} 
                     alt={`Portrait of ${profile.name}`} 
                     fill
-                    sizes="(max-width: 768px) 80vw, 400px"
-                    className="rounded-2xl object-cover"
-                    style={{ objectFit: 'cover', objectPosition: 'center 15%' }} 
+                    sizes="(max-width: 768px) 200px, 280px"
+                    className="object-cover"
+                    style={{ objectFit: 'cover', objectPosition: 'center', border: '2px solid #7B61FF', borderRadius: 12 }} 
                     priority
                     loading="eager"
                   />
@@ -146,24 +144,22 @@ export default function AboutSection({ profile, experience }: AboutProps) {
           </div>
 
           {/* Text */}
-          <div className="lg:col-span-7 text-center lg:text-left flex flex-col items-center lg:items-start">
+          <div className="text-center md:text-left flex flex-col items-center md:items-start">
             <h3 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6 tracking-tight leading-tight">
               Building the Future with AI
             </h3>
             <p className="text-base sm:text-lg text-slate-400 mb-8 max-w-2xl leading-relaxed font-normal">
               {profile?.about || 'I am a passionate AI & ML Engineering student with a focus on building intelligent systems and modern web applications. I love exploring the intersection of data science and full-stack development.'}
             </p>
-            <div className="flex flex-col gap-4 mb-8 w-full max-w-md">
-              {[
-                { icon: '📍', label: profile?.location || 'San Francisco, CA' },
-                { icon: '📧', label: profile?.email || 'michealjohnsonraj16@gmail.com' },
-                { icon: '💼', label: experience && experience.length > 0 ? experience[0].company : 'Available' },
-              ].map((item, i) => (
-                <div key={i} className="flex items-center gap-4 text-slate-300 justify-center lg:justify-start">
-                  <span className="text-lg">{item.icon}</span>
-                  <span className="font-medium text-sm sm:text-base">{item.label}</span>
-                </div>
-              ))}
+            <div className="grid grid-cols-[100px_1fr] gap-y-3 gap-x-4 mb-8 w-full max-w-md text-left">
+              <div className="font-mono text-[12px] text-slate-500 uppercase tracking-wider">Location</div>
+              <div className="text-slate-300 text-sm sm:text-base">Kallakurichi, Tamil Nadu</div>
+              
+              <div className="font-mono text-[12px] text-slate-500 uppercase tracking-wider">Status</div>
+              <div className="text-slate-300 text-sm sm:text-base">Seeking internship (2025)</div>
+              
+              <div className="font-mono text-[12px] text-slate-500 uppercase tracking-wider">CGPA</div>
+              <div className="text-slate-300 text-sm sm:text-base">7.5 · AI & ML · 2027 batch</div>
             </div>
 
             {/* Resume download */}

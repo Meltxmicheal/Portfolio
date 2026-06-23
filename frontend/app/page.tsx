@@ -3,6 +3,7 @@ import Navbar from '@/components/ui/Navbar'
 import Footer from '@/components/ui/Footer'
 import HeroSection from '@/components/sections/HeroSection'
 import AboutSection from '@/components/sections/AboutSection'
+import TechStackSection from '@/components/sections/TechStackSection'
 import FeaturedProjectSection from '@/components/sections/FeaturedProjectSection'
 import ProjectsSection from '@/components/sections/ProjectsSection'
 import TheJourneySection from '@/components/sections/TheJourneySection'
@@ -39,6 +40,7 @@ export default async function HomePage() {
       <main id="main" style={{ position: 'relative', zIndex: 1 }}>
         <HeroSection profile={profile} experience={experience} />
         <AboutSection profile={profile} experience={experience} />
+        <TechStackSection />
         <TheJourneySection experience={experience} skills={skills} education={education} />
         {featuredProject && <FeaturedProjectSection project={featuredProject} />}
         <ProjectsSection projects={projects} title={projectsTitle} />

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     template: '%s | Meltx Micheal',
   },
   description:
-    'Meltx Micheal — Full-stack AI/ML developer portfolio. Next.js, Supabase, Cloudinary. Building premium cinematic web experiences and intelligent systems.',
+    'Fresher AI/ML + Full Stack Developer · Seeking internship 2025 · Next.js · Python · React · Tamil Nadu',
   keywords: [
     'Meltx Micheal', 'portfolio', 'full stack developer', 'AI engineer',
     'Next.js', 'React', 'TypeScript', 'Supabase', 'machine learning',
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     siteName: 'Meltx Micheal Portfolio',
     title: 'Meltx Micheal — Full Stack Developer & AI Engineer',
     description:
-      'Full-stack AI/ML developer portfolio. Next.js 14, Supabase, Cloudinary. Premium cinematic web experience.',
+      'Fresher AI/ML + Full Stack Developer · Seeking internship 2025 · Next.js · Python · React · Tamil Nadu',
     images: [
       {
         url: ogImage,
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Meltx Micheal — Full Stack Developer & AI Engineer',
     description:
-      'Full-stack AI/ML developer portfolio. Next.js 14, Supabase, Cloudinary.',
+      'Fresher AI/ML + Full Stack Developer · Seeking internship 2025 · Next.js · Python · React · Tamil Nadu',
     images: [ogImage],
     creator: '@meltxmicheal',
   },

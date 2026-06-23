@@ -77,6 +77,14 @@ export default function ProjectsSection({ projects, title: sectionTitle }: Proje
           {filtered.map((project, i) => (
             <ProjectCard key={project.id} project={project} index={i} />
           ))}
+          {filter === 'all' && (
+            <div className="project-card-v2" style={{ position: 'relative', borderRadius: 24, overflow: 'hidden', opacity: 0.5, border: '1px dashed #1E1E3F', height: '100%', minHeight: 350, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(15, 15, 20, 0.2)' }}>
+              <div className="text-center p-6">
+                <h3 className="font-display text-2xl font-bold text-slate-300 mb-3">Next Project</h3>
+                <span style={{ padding: '5px 12px', borderRadius: '100px', fontSize: '10px', fontWeight: 700, background: 'rgba(124, 58, 237, 0.15)', border: '1px solid rgba(124, 58, 237, 0.3)', color: '#c4b5fd', textTransform: 'uppercase', letterSpacing: '0.15em' }}>Coming Soon</span>
+              </div>
+            </div>
+          )}
           {filtered.length === 0 && (
             <div className="col-span-full text-center py-20 text-slate-500 font-medium">
               No projects in this category yet.
@@ -164,13 +172,16 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           <h3 className="font-display card-title-v3">
             {project.title}
           </h3>
+          {project.title === 'Abyra Store' && <p className="text-sm font-semibold text-violet-400 mb-3 leading-snug">Built for a real handmade crochet brand — admin dashboard, product management & Razorpay payments</p>}
+          {project.title === 'Resume AI' && <p className="text-sm font-semibold text-violet-400 mb-3 leading-snug">Ranks candidates by matching resumes to JDs using NLP — tested on 50+ resumes</p>}
+          {project.title === 'Zip2Extract' && <p className="text-sm font-semibold text-violet-400 mb-3 leading-snug">SaaS tool to explore ZIP codebases online — VS Code-like editor, OTP auth, Stripe plans</p>}
           <p className="card-desc-v3">
             {project.short_description}
           </p>
 
           {/* Tech Stack */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 28 }}>
-            {project.technologies?.slice(0, 3).map(tech => (
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 20 }}>
+            {project.technologies?.map(tech => (
               <span key={tech} className="tech-tag-v3">
                 {tech}
               </span>
@@ -178,24 +189,13 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           </div>
 
           {/* Actions */}
-          {/* Actions */}
           <div className="grid grid-cols-2 gap-2 sm:gap-3 mt-auto">
-            <Link href={`/projects/${project.slug}`}
-               className="flex justify-center items-center gap-1.5 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg
-                          border border-white/10 text-white/60 text-xs sm:text-sm font-medium
-                          hover:text-white hover:border-white/20 hover:bg-white/5
-                          transition-all duration-200"
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg> Details
-            </Link>
-            
             {project.live_url ? (
               <a href={project.live_url} target="_blank"
                  className="flex justify-center items-center gap-1.5 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg
-                            bg-white/10 border border-white/15
                             text-white text-xs sm:text-sm font-semibold
-                            hover:bg-white/20 hover:border-white/25
-                            transition-all duration-200 text-decoration-none shadow-sm"
+                            hover:brightness-110 transition-all duration-200 text-decoration-none shadow-sm"
+                 style={{ background: '#7B61FF' }}
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg> View Live
               </a>
@@ -204,6 +204,15 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                 Coming Soon
               </button>
             )}
+
+            <Link href={`/projects/${project.slug}`}
+               className="flex justify-center items-center gap-1.5 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg
+                          border border-white/20 text-white text-xs sm:text-sm font-medium
+                          hover:text-white hover:border-white/40 hover:bg-white/5
+                          transition-all duration-200 bg-transparent"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg> Details
+            </Link>
           </div>
         </div>
       </div>

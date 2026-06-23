@@ -21,6 +21,7 @@ export default function HeroSection({ profile: initialProfile, experience }: Her
       .subscribe()
       
     return () => { supabase.removeChannel(channel) }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profile?.id])
 
   return (
@@ -63,7 +64,7 @@ export default function HeroSection({ profile: initialProfile, experience }: Her
           margin: '0 auto 24px',
           animation: 'fadeUp 0.8s 0.1s ease both'
         }}>
-          Hi, I'm Micheal — AI/ML & Full Stack Developer
+          Hi, I&apos;m Micheal — AI/ML & Full Stack Developer
         </h1>
 
         {/* Subtitle */}

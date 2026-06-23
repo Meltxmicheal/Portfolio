@@ -136,8 +136,8 @@ export default function Navbar({ profile }: { profile?: Profile | null }) {
                 Resume
               </a>
             )}
-            <a href="#contact" className="btn-primary" style={{ fontSize: 13, padding: '10px 24px', borderRadius: 12, fontWeight: 700, letterSpacing: '0.02em' }}>
-              CONNECT
+            <a href="#contact" style={{ fontSize: 13, padding: '8px 20px', borderRadius: 100, fontWeight: 600, border: '1px solid rgba(255,255,255,0.2)', color: '#FFFFFF', textDecoration: 'none' }}>
+              Hire me
             </a>
           </div>
           {/* Mobile Menu Toggle */}
@@ -150,9 +150,8 @@ export default function Navbar({ profile }: { profile?: Profile | null }) {
 
         {/* Mobile Nav Drawer */}
         <div className={`mobile-nav ${menuOpen ? 'open' : ''}`} style={{
-          position: 'fixed', top: 0, right: 0, bottom: 0, width: '280px',
-          background: 'rgba(10, 10, 25, 0.95)', backdropFilter: 'blur(20px)',
-          borderLeft: '1px solid rgba(255, 255, 255, 0.08)',
+          position: 'fixed', top: 0, right: 0, bottom: 0, width: '100vw',
+          background: 'rgba(10, 10, 25, 0.98)', backdropFilter: 'blur(20px)',
           padding: '100px 24px 24px', display: 'flex', flexDirection: 'column', gap: 24,
           transform: menuOpen ? 'translateX(0)' : 'translateX(100%)',
           transition: 'transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)',
@@ -167,9 +166,9 @@ export default function Navbar({ profile }: { profile?: Profile | null }) {
                   href={`/${link.href}`}
                   onClick={(e) => { setMenuOpen(false); handleNavClick(e, link.href); }}
                   style={{
-                    fontSize: 20, fontWeight: 600, textDecoration: 'none',
+                    fontSize: 28, fontWeight: 500, textDecoration: 'none',
                     color: isActive ? '#FFFFFF' : '#94a3b8',
-                    padding: '12px 0', borderBottom: '1px solid rgba(255,255,255,0.05)'
+                    padding: '20px 0', borderBottom: '1px solid rgba(255,255,255,0.05)'
                   }}
                 >
                   {link.label}
@@ -185,8 +184,7 @@ export default function Navbar({ profile }: { profile?: Profile | null }) {
                 href={profile.resume_url} 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="btn-ghost" 
-                style={{ justifyContent: 'center', padding: '12px', fontSize: 14, borderRadius: 10 }}
+                style={{ justifyContent: 'center', display: 'flex', alignItems: 'center', padding: '16px', fontSize: 16, borderRadius: 100, border: '1px solid rgba(255,255,255,0.2)', color: '#FFFFFF', textDecoration: 'none', fontWeight: 600 }}
               >
                 Resume
               </a>
@@ -194,10 +192,9 @@ export default function Navbar({ profile }: { profile?: Profile | null }) {
             <a 
               href="#contact" 
               onClick={() => setMenuOpen(false)} 
-              className="btn-primary" 
-              style={{ justifyContent: 'center', padding: '12px', fontSize: 14, borderRadius: 10 }}
+              style={{ justifyContent: 'center', display: 'flex', alignItems: 'center', padding: '16px', fontSize: 16, borderRadius: 100, border: '1px solid rgba(255,255,255,0.2)', color: '#FFFFFF', textDecoration: 'none', fontWeight: 600 }}
             >
-              Connect
+              Hire me
             </a>
           </div>
         </div>

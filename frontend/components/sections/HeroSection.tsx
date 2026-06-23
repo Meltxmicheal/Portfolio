@@ -1,13 +1,11 @@
 'use client'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Profile, Experience, supabase } from '@/lib/supabase'
 
 interface HeroProps { profile: Profile | null, experience?: Experience[] }
 
 export default function HeroSection({ profile: initialProfile, experience }: HeroProps) {
   const [profile, setProfile] = useState(initialProfile)
-  const titleRef = useRef<HTMLHeadingElement>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => { setProfile(initialProfile) }, [initialProfile])
 
@@ -25,191 +23,83 @@ export default function HeroSection({ profile: initialProfile, experience }: Her
     return () => { supabase.removeChannel(channel) }
   }, [profile?.id])
 
-  const name = profile?.name || 'Alex Chen'
-  const title = profile?.title || 'Full Stack Developer & Designer'
-  const tagline = profile?.tagline || 'Crafting digital experiences that blur the line between art and technology'
-
-  useEffect(() => {
-    // Stagger in chars of title
-    const el = titleRef.current
-    if (!el) return
-    const text = name.toUpperCase()
-    el.innerHTML = text.split(' ').map((word) => {
-      const chars = word.split('').map((char, i) => {
-        return `<span class="char" style="display:inline-block;overflow:hidden;vertical-align:bottom;"><span class="char-inner" style="display:inline-block;animation:fadeUp 0.6s ${i * 0.05}s ease forwards;opacity:0;">${char}</span></span>`
-      }).join('')
-      return `<span class="word" style="display:inline-block;white-space:nowrap;margin: 0 0.12em;">${chars}</span>`
-    }).join(' ')
-  }, [name])
-
-  // Parallax on mouse move
-  useEffect(() => {
-    const container = containerRef.current
-    if (!container) return
-    const onMove = (e: MouseEvent) => {
-      const { innerWidth: W, innerHeight: H } = window
-      const x = (e.clientX / W - 0.5) * 20
-      const y = (e.clientY / H - 0.5) * 15
-      const blobs = container.querySelectorAll<HTMLElement>('.hero-blob')
-      blobs.forEach((blob, i) => {
-        const factor = (i + 1) * 0.2
-        blob.style.transform = `translate(${x * factor}px, ${y * factor}px)`
-      })
-    }
-    window.addEventListener('mousemove', onMove)
-    return () => window.removeEventListener('mousemove', onMove)
-  }, [])
-
   return (
     <section
-      ref={containerRef}
       style={{
         minHeight: '100vh', position: 'relative', display: 'flex',
         alignItems: 'center', justifyContent: 'center',
-        overflow: 'hidden', padding: '100px 24px',
+        background: '#0a0a19', padding: '100px 24px',
+        color: '#f8fafc',
       }}
     >
-      {/* Background Blobs for depth */}
-      <div className="hero-blob" style={{ position: 'absolute', top: '10%', left: '5%', width: 600, height: 600, background: 'radial-gradient(circle, rgba(124,58,237,0.1) 0%, transparent 70%)', filter: 'blur(80px)', zIndex: 1, willChange: 'transform' }} />
-      <div className="hero-blob" style={{ position: 'absolute', bottom: '10%', right: '5%', width: 500, height: 500, background: 'radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%)', filter: 'blur(80px)', zIndex: 1, willChange: 'transform' }} />
-
-      {/* Main content */}
       <div style={{ maxWidth: 1200, width: '100%', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 2 }}>
         {/* Availability Badge */}
-        {(() => {
-          const isAvailable = profile?.availability !== 'Not Available' && profile?.availability !== 'Not Looking';
-          const availabilityText = profile?.availability || 'Actively Looking';
-          
-          if (!isAvailable) {
-            return (
-              <div style={{
-                display: 'inline-flex', alignItems: 'center', gap: 10,
-                marginBottom: 20, padding: '7px 18px', borderRadius: '100px',
-                background: 'rgba(255, 255, 255, 0.03)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                animation: 'fadeUp 0.7s 0.1s ease both',
-                opacity: 0,
-              }}>
-                <span style={{
-                  width: 8, height: 8, borderRadius: '50%',
-                  background: '#64748b', display: 'inline-block',
-                  boxShadow: 'none',
-                }} />
-                <span style={{ fontSize: 12, letterSpacing: '0.06em', color: '#94a3b8', fontWeight: 600 }}>
-                  {availabilityText}
-                </span>
-              </div>
-            );
-          }
-
-          return (
-            <div style={{
-              display: 'inline-flex', alignItems: 'center', gap: 10,
-              marginBottom: 20, padding: '7px 18px', borderRadius: '100px',
-              background: 'rgba(34, 197, 94, 0.08)',
-              border: '1px solid rgba(34, 197, 94, 0.25)',
-              animation: 'fadeUp 0.7s 0.1s ease both',
-              opacity: 0,
-            }}>
-              <span style={{
-                width: 8, height: 8, borderRadius: '50%',
-                background: '#22c55e', display: 'inline-block',
-                boxShadow: '0 0 0 0 rgba(34,197,94,0.4)',
-                animation: 'greenPulse 2s ease-in-out infinite',
-              }} />
-              <span style={{ fontSize: 12, letterSpacing: '0.06em', color: '#86efac', fontWeight: 600 }}>
-                {availabilityText}
-              </span>
-            </div>
-          );
-        })()}
-
-        {/* Opportunity Status & Career Stage */}
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 32, gap: 12, flexWrap: 'wrap', animation: 'fadeUp 0.8s 0.2s ease both', opacity: 0 }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(59, 130, 246, 0.1)', padding: '6px 16px', borderRadius: '100px', border: '1px solid rgba(59, 130, 246, 0.2)' }}>
-            <span style={{ fontSize: 12, color: '#60a5fa', fontWeight: 600, letterSpacing: '0.05em' }}>{profile?.career_stage || 'Professional'}</span>
-          </div>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(168, 85, 247, 0.1)', padding: '6px 16px', borderRadius: '100px', border: '1px solid rgba(168, 85, 247, 0.2)' }}>
-            <span style={{ fontSize: 12, color: '#c084fc', fontWeight: 600, letterSpacing: '0.05em' }}>{profile?.opportunity_status || 'Open to Opportunities'}</span>
-          </div>
-        </div>
-
-        {/* Name */}
-        <h1 ref={titleRef} className="font-display hero-name-text" style={{
-          fontSize: 'clamp(28px, 6.5vw, 80px)',
-          fontWeight: 900, 
-          lineHeight: 1.1,
-          letterSpacing: '-0.02em',
-          color: '#FFFFFF',
-          marginBottom: 32,
-          textTransform: 'uppercase',
-          textAlign: 'center',
-          maxWidth: '100%',
-          display: 'block',
-          wordBreak: 'keep-all',
-          overflowWrap: 'break-word',
-          padding: '0 15px'
+        <div style={{
+          display: 'inline-flex', alignItems: 'center', gap: 8,
+          marginBottom: 32, padding: '6px 16px', borderRadius: '100px',
+          background: 'transparent',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          animation: 'fadeUp 0.8s ease both',
         }}>
-          {name}
-        </h1>
-
-        {/* Title line */}
-        <div style={{ marginBottom: 24, opacity: 0, animation: 'fadeUp 0.8s 0.6s ease forwards' }}>
-          <span className="text-shimmer font-display" style={{ fontSize: 'clamp(18px, 3.5vw, 28px)', fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#94a3b8' }}>
-            {title}
+          <span style={{
+            width: 6, height: 6, borderRadius: '50%',
+            background: '#7B61FF', display: 'inline-block',
+          }} />
+          <span style={{ fontSize: 13, color: '#f8fafc', fontWeight: 500 }}>
+            Open to internships · 2025
           </span>
         </div>
 
-        {/* Experience Tags */}
-        <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 8, maxWidth: 600, margin: '0 auto 40px', opacity: 0, animation: 'fadeUp 0.8s 0.7s ease forwards' }}>
-          {(profile?.experience_tags || []).map(tag => (
-            <span key={tag} style={{ fontSize: 11, color: '#e2e8f0', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', padding: '6px 14px', borderRadius: 20, fontWeight: 600, letterSpacing: '0.05em' }}>
-              {tag}
-            </span>
-          ))}
-        </div>
-
-        {/* Tagline */}
-        <p style={{
-          fontSize: 'clamp(15px, 1.1vw, 18px)', lineHeight: 1.7, color: '#94a3b8',
-          maxWidth: 680, margin: '0 auto 56px',
-          opacity: 0, animation: 'fadeUp 0.8s 0.8s ease forwards',
-          fontWeight: 450
+        {/* Name */}
+        <h1 style={{
+          fontSize: 'clamp(32px, 5vw, 64px)',
+          fontWeight: 700, 
+          lineHeight: 1.2,
+          letterSpacing: '-0.02em',
+          color: '#f8fafc',
+          marginBottom: 24,
+          textAlign: 'center',
+          maxWidth: '800px',
+          margin: '0 auto 24px',
+          animation: 'fadeUp 0.8s 0.1s ease both'
         }}>
-          {tagline}
-        </p>
+          Hi, I'm Micheal — AI/ML & Full Stack Developer
+        </h1>
+
+        {/* Subtitle */}
+        <div style={{
+          fontSize: 'clamp(16px, 1.5vw, 20px)', lineHeight: 1.6, color: '#94a3b8',
+          maxWidth: 680, margin: '0 auto 48px',
+          animation: 'fadeUp 0.8s 0.2s ease both',
+          fontWeight: 400,
+          display: 'flex', flexDirection: 'column', gap: 8
+        }}>
+          <span>B.E. CSE (AI & ML) at Arunai Engineering College · Kallakurichi</span>
+          <span>Building real projects with Next.js, Python & AI tools</span>
+        </div>
 
         {/* CTA Buttons */}
         <div 
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 max-w-2xl mx-auto px-4"
           style={{
-            opacity: 0, 
-            animation: 'fadeUp 0.8s 1s ease forwards',
+            display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16,
+            animation: 'fadeUp 0.8s 0.3s ease both',
           }}
         >
-          <a href="#projects" className="btn-primary w-full sm:w-auto justify-center" style={{ fontSize: 15, padding: '14px 32px', borderRadius: 12 }}>
-            View My Work
-            <svg width="18" height="18" viewBox="0 0 16 16" fill="none" style={{ marginLeft: 8 }}>
-              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
+          <a href="#projects" style={{ 
+            display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+            fontSize: 16, padding: '16px 36px', borderRadius: 8, 
+            background: '#7B61FF', color: '#ffffff', fontWeight: 600, textDecoration: 'none',
+            transition: 'opacity 0.2s'
+          }} onMouseEnter={(e) => e.currentTarget.style.opacity = '0.9'} onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}>
+            View My Projects &rarr;
           </a>
-          <a href={profile?.resume_url || "#"} target="_blank" rel="noopener noreferrer" className="btn-ghost w-full sm:w-auto justify-center" style={{ fontSize: 15, padding: '13px 31px', borderRadius: 12, border: '1px solid rgba(255,255,255,0.1)' }}>
+          <a href={profile?.resume_url || "#"} target="_blank" rel="noopener noreferrer" style={{ 
+            fontSize: 14, color: '#94a3b8', textDecoration: 'none', fontWeight: 500,
+            borderBottom: '1px solid transparent', paddingBottom: 2, transition: 'all 0.2s'
+          }} onMouseEnter={(e) => {e.currentTarget.style.color = '#f8fafc'; e.currentTarget.style.borderBottomColor = '#f8fafc'}} onMouseLeave={(e) => {e.currentTarget.style.color = '#94a3b8'; e.currentTarget.style.borderBottomColor = 'transparent'}}>
             Download Resume
           </a>
-          <a href="#contact" className="btn-ghost w-full sm:w-auto justify-center" style={{ fontSize: 15, padding: '13px 31px', borderRadius: 12, border: '1px solid rgba(255,255,255,0.1)' }}>
-            Get in Touch
-          </a>
         </div>
-      </div>
-
-      {/* Scroll indicator */}
-      <div style={{
-        position: 'absolute', bottom: 36, left: '50%', transform: 'translateX(-50%)',
-        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8,
-        opacity: 0, animation: 'fadeUp 1s 1.6s ease forwards',
-      }}>
-        <span style={{ fontSize: 11, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--text-muted)' }}>Scroll</span>
-        <div style={{ width: 1, height: 40, background: 'linear-gradient(180deg, var(--violet-glow), transparent)', animation: 'float 2s ease-in-out infinite' }} />
       </div>
     </section>
   )
